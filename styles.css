@@ -79,13 +79,3 @@ footer{background:#201612;color:#fff;text-align:center;padding:55px 7%}.footer-b
 .cart-empty{text-align:center;padding:45px 25px}.cart-empty span{font-size:3.5rem}.cart-empty h3{margin:10px 0 5px}.cart-empty p{color:#776a62;margin-bottom:20px}.cart-footer{padding:20px 25px;border-top:1px solid #e6dcd1}.cart-total{display:flex;justify-content:space-between;font-weight:900;margin-bottom:15px}.cart-total strong{font-size:1.4rem}.whatsapp-btn{width:100%;padding:15px;background:#1fbd5b;color:#fff;border-radius:10px;font-weight:900}.cart-footer>small{display:block;text-align:center;color:#88786e;font-size:.7rem;margin-top:9px}
 @media(max-width:850px){.topbar{height:70px}.nav{display:none;position:absolute;top:70px;left:0;right:0;background:#fffaf0;padding:20px;flex-direction:column;gap:18px;border-bottom:1px solid #ddd}.nav.open{display:flex}.menu-toggle{display:block}.hero{grid-template-columns:1fr;padding-top:45px}.hero-art{height:360px}.product-grid,.menu-grid,.steps-grid{grid-template-columns:1fr 1fr}.builder,.about{grid-template-columns:1fr;gap:35px}.section{padding:65px 5%}.promo{margin-left:5%;margin-right:5%}}
 @media(max-width:560px){.nav{font-size:.95rem}.cart-button span:nth-child(2){display:none}.hero{padding-left:5%;padding-right:5%}.hero h1{font-size:4.3rem}.hero-art{height:300px}.hotdog-illustration{transform:scale(.8) rotate(-7deg)}.product-grid,.menu-grid,.steps-grid{grid-template-columns:1fr}.section-heading{align-items:start;gap:15px;flex-direction:column}.promo{padding:40px 25px}.promo-sticker{font-size:4rem}.builder-card{padding:18px}.builder-total{align-items:flex-start;flex-direction:column}.builder-total .btn{width:100%}.about{padding-left:5%;padding-right:5%}}
-
-/* FULL BITE — imágenes reales de productos */
-.product-visual img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  position:relative;
-  z-index:1;
-}
