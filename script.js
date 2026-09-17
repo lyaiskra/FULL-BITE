@@ -162,10 +162,10 @@ $("addCombo").addEventListener("click",()=>{
 });
 
 choice("dogChoices",[
-  {name:"Clásico",price:1.00},{name:"Especial",price:1.50}
+  {name:"Clásico",price:1.00}
 ],"dog");
 choice("sideChoices",[
-  {name:"Papas",price:0.50},{name:"Papas + queso",price:1.00}
+  {name:"Papas",price:0.50}
 ],"side");
 choice("drinkChoices",[
   {name:"Soda",price:0.50}
