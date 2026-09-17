@@ -1,14 +1,10 @@
 const WHATSAPP_NUMBER = "50769275725";
 
 const products = [
-  {id:"classic", name:"Hotdog Clásico", category:"hotdogs", price:1.25, desc:"Salchicha, pan suave y nuestras salsas clásicas.", emoji:"🌭", featured:true, badge:"CLÁSICO"},
-  {id:"special", name:"Hotdog Doble Salchicha", category:"hotdogs", price:1.50, desc:"Salchicha, toppings y salsas de la casa.", emoji:"🌭", featured:true, badge:"MÁS VENDIDO"},
-  {id:"combo-1", name:"Combo #1", category:"combos", price:2.00, desc:"Hotdog Clásico + soda.", emoji:"🍽️",featured:true, badge:"COMBO"},
-  {id:"combo-2", name:"Combo #2", category:"combos", price:2.25, desc:"Hotdog Doble Salchicha + soda.", emoji:"🍽️", featured:true, badge:"COMBO"},
-  {id:"combo-3", name:"Combo #3", category:"combos", price:2.50, desc:"Hotdog + papas + soda.", emoji:"🍽️",featured:true, badge:"COMBO"},
-  {id:"combo-4", name:"Combo #4", category:"combos", price:3.00, desc:"Hotdog + papas con queso + soda.", emoji:"🍽️",featured:true, badge:"COMBO"},
+  {id:"classic", name:"Hotdog Clásico", category:"hotdogs", price:1.00, desc:"Salchicha, pan suave y nuestras salsas clásicas.", emoji:"🌭", featured:true, badge:"CLÁSICO"},
+  {id:"combo-1", name:"Combo #1", category:"combos", price:1.50, desc:"Hotdog Clásico + soda.", emoji:"🍽️",featured:true, badge:"COMBO"},
+  {id:"combo-2", name:"Combo #2", category:"combos", price:2.00, desc:"Hotdog Clásico + papas + soda.", emoji:"🍽️", featured:true, badge:"COMBO"},
   {id:"fries", name:"Papas Fritas", category:"papas", price:0.50, desc:"Papas crujientes, perfectas para acompañar.", emoji:"🍟",featured:true, badge:"PAPAS"},
-  {id:"cheese-fries", name:"Papas con Queso", category:"papas", price:1.00, desc:"Papas crujientes con queso cremoso.", emoji:"🧀",featured:true, badge:"PAPAS"},
   {id:"donuts", name:"Donas", category:"postre", price:1.00, desc:"Donas esponjosas y deliciosas.", emoji:"🍩",featured:true, badge:"POSTRE"},
   {id:"cookies", name:"Galletas", category:"postre", price:0.50, desc:"Galletas crujientes y deliciosas.", emoji:"🍪",featured:true, badge:"POSTRE"},
   {id:"soda", name:"Soda", category:"bebidas", price:0.50, desc:"Elige tu sabor disponible en el punto de venta.", emoji:"🥤",featured:true, badge:"BEBIDA"},
@@ -135,7 +131,7 @@ document.querySelectorAll(".nav a").forEach(a=>a.addEventListener("click",()=> $
 
 // Constructor de combo
 const builder = {
-  dog: {name:"Hotdog Clásico", price:1.25},
+  dog: {name:"Hotdog Clásico", price:1.00},
   side: {name:"Papas Fritas", price:0.50},
   drink: {name:"Soda", price:0.50}
 };
@@ -166,7 +162,7 @@ $("addCombo").addEventListener("click",()=>{
 });
 
 choice("dogChoices",[
-  {name:"Clásico",price:1.25},{name:"Especial",price:1.50}
+  {name:"Clásico",price:1.00},{name:"Especial",price:1.50}
 ],"dog");
 choice("sideChoices",[
   {name:"Papas",price:0.50},{name:"Papas + queso",price:1.00}
