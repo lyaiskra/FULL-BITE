@@ -53,594 +53,660 @@ const products = [
   }
 ];
 
-/* ==================== CARRITO ==================== */
-
-let cart = JSON.parse(
-  localStorage.getItem("fullBiteCart") || "[]"
-);
-
-
+let cart = JSON.parse(localStorage.getItem("fullbite-cart")) || [];
 let selectedCategory = "todos";
 
-
-/* ==================== FUNCIONES ==================== */
-
-const $ = id =>
-  document.getElementById(id);
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
 
 
-const money = n =>
-  `$${n.toFixed(2)}`;
+/* =========================
+   FORMATO DE PRECIO
+========================= */
 
-
-function saveCart(){
-
-  localStorage.setItem(
-    "fullBiteCart",
-    JSON.stringify(cart)
-  );
-
+function formatPrice(price) {
+  return `$${price.toFixed(2)}`;
 }
 
 
-/* ==================== AGREGAR AL CARRITO ==================== */
+/* =========================
+   GUARDAR CARRITO
+========================= */
 
-function addToCart(
-  productId,
-  qty = 1
-){
-
-  const product =
-    products.find(
-      x => x.id === productId
-    );
+function saveCart() {
+  localStorage.setItem("fullbite-cart", JSON.stringify(cart));
+}
 
 
-  if(!product) return;
+/* =========================
+   CANTIDAD TOTAL
+========================= */
+
+function getCartCount() {
+  return cart.reduce((total, item) => total + item.quantity, 0);
+}
 
 
-  const existing =
-    cart.find(
-      x => x.id === productId
-    );
+/* =========================
+   TOTAL DEL CARRITO
+========================= */
+
+function getCartTotal() {
+  return cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+}
 
 
-  if(existing){
+/* =========================
+   ACTUALIZAR CONTADOR
+========================= */
 
-    existing.qty += qty;
+function updateCartCount() {
+  const countElements = $$("[data-cart-count]");
 
-  }else{
+  countElements.forEach((element) => {
+    element.textContent = getCartCount();
+  });
+}
 
+
+/* =========================
+   AGREGAR PRODUCTO
+========================= */
+
+function addToCart(productId) {
+  const product = products.find((item) => item.id === productId);
+
+  if (!product) return;
+
+  const existingProduct = cart.find(
+    (item) => item.id === productId
+  );
+
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+  } else {
     cart.push({
-      id:product.id,
-      qty:qty
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      emoji: product.emoji,
+      quantity: 1
     });
-
   }
 
-
   saveCart();
-
   renderCart();
+  updateCartCount();
 
-  openCart();
-
+  showNotification(`${product.name} agregado al carrito`);
 }
 
 
-/* ==================== RESTAR PRODUCTO ==================== */
+/* =========================
+   QUITAR PRODUCTO
+========================= */
 
-function removeOne(id){
+function removeFromCart(productId) {
+  cart = cart.filter((item) => item.id !== productId);
 
-  const item =
-    cart.find(
-      x => x.id === id
+  saveCart();
+  renderCart();
+  updateCartCount();
+}
+
+
+/* =========================
+   CAMBIAR CANTIDAD
+========================= */
+
+function changeQuantity(productId, change) {
+  const item = cart.find(
+    (product) => product.id === productId
+  );
+
+  if (!item) return;
+
+  item.quantity += change;
+
+  if (item.quantity <= 0) {
+    removeFromCart(productId);
+    return;
+  }
+
+  saveCart();
+  renderCart();
+  updateCartCount();
+}
+
+
+/* =========================
+   RENDERIZAR PRODUCTOS
+========================= */
+
+function renderProducts() {
+  const container = $("#products-grid");
+
+  if (!container) return;
+
+  let filteredProducts = products;
+
+  if (selectedCategory !== "todos") {
+    filteredProducts = products.filter(
+      (product) => product.category === selectedCategory
     );
-
-
-  if(!item) return;
-
-
-  item.qty--;
-
-
-  if(item.qty <= 0){
-
-    cart =
-      cart.filter(
-        x => x.id !== id
-      );
-
   }
 
-
-  saveCart();
-
-  renderCart();
-
-}
-
-
-/* ==================== SUMAR PRODUCTO ==================== */
-
-function addOne(id){
-
-  addToCart(id);
-
-}
-
-
-/* ==================== TOTAL ==================== */
-
-function cartTotal(){
-
-  return cart.reduce(
-    (sum,item) => {
-
-      const product =
-        products.find(
-          x => x.id === item.id
-        );
-
-
-      return sum +
-        (
-          product
-          ? product.price * item.qty
-          : 0
-        );
-
-    },
-    0
-  );
-
-}
-
-
-/* ==================== CANTIDAD DEL CARRITO ==================== */
-
-function cartCount(){
-
-  return cart.reduce(
-    (sum,item) =>
-      sum + item.qty,
-    0
-  );
-
-}
-
-
-/* ==================== TARJETAS ==================== */
-
-function productCard(p){
-
-  return `
-
-    <article class="product-card">
-
-      ${
-        p.badge
-        ? `<span class="badge">${p.badge}</span>`
-        : ""
-      }
-
-
-      <div class="product-visual">
-
-        ${p.emoji}
-
+  if (filteredProducts.length === 0) {
+    container.innerHTML = `
+      <div class="empty-products">
+        <p>No hay productos disponibles en esta categoría.</p>
       </div>
+    `;
 
+    return;
+  }
 
-      <div class="product-info">
-
-        <h3>
-          ${p.name}
-        </h3>
-
-
-        <p>
-          ${p.desc}
-        </p>
-
-
-        <div class="product-bottom">
-
-          <span class="price">
-            ${money(p.price)}
-          </span>
-
-
-          <button
-            class="add-btn"
-            onclick="addToCart('${p.id}')"
-          >
-            + AGREGAR
-          </button>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-/* ==================== MOSTRAR PRODUCTOS ==================== */
-
-function renderProducts(){
-
-  const featured =
-    products
-      .filter(
-        p => p.featured
-      )
-      .slice(0,3);
-
-
-  $("featuredProducts").innerHTML =
-    featured
-      .map(productCard)
-      .join("");
-
-
-  const list =
-    selectedCategory === "todos"
-    ? products
-    : products.filter(
-        p =>
-          p.category === selectedCategory
-      );
-
-
-  $("menuProducts").innerHTML =
-    list
-      .map(productCard)
-      .join("");
-
-}
-
-
-/* ==================== MOSTRAR CARRITO ==================== */
-
-function renderCart(){
-
-  $("cartCount").textContent =
-    cartCount();
-
-
-  $("cartTotal").textContent =
-    money(cartTotal());
-
-
-  $("cartItems").innerHTML =
-    cart.map(item => {
-
-      const product =
-        products.find(
-          x => x.id === item.id
-        );
-
-
-      if(!product) return "";
-
-
+  container.innerHTML = filteredProducts
+    .map((product) => {
       return `
+        <article class="product-card">
 
-        <div class="cart-item">
-
-
-          <div class="cart-item-icon">
-
-            ${product.emoji}
-
+          <div class="product-card-top">
+            <span class="product-badge">
+              ${product.badge}
+            </span>
           </div>
 
+          <div class="product-emoji">
+            ${product.emoji}
+          </div>
 
-          <div>
+          <div class="product-info">
 
-            <h4>
-              ${product.name}
-            </h4>
+            <h3>${product.name}</h3>
 
+            <p>${product.desc}</p>
 
-            <p>
-              ${money(
-                product.price * item.qty
-              )}
-            </p>
+            <div class="product-bottom">
 
-
-            <div class="qty">
-
+              <strong class="product-price">
+                ${formatPrice(product.price)}
+              </strong>
 
               <button
-                onclick="removeOne('${product.id}')"
+                class="add-to-cart"
+                type="button"
+                data-add-product="${product.id}"
               >
-                −
+                Agregar
               </button>
-
-
-              <b>
-                ${item.qty}
-              </b>
-
-
-              <button
-                onclick="addOne('${product.id}')"
-              >
-                +
-              </button>
-
 
             </div>
 
           </div>
 
+        </article>
+      `;
+    })
+    .join("");
+}
+
+
+/* =========================
+   RENDERIZAR CARRITO
+========================= */
+
+function renderCart() {
+  const cartItems = $("#cart-items");
+  const cartTotal = $("#cart-total");
+
+  if (!cartItems) return;
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = `
+      <div class="empty-cart">
+        <span>🛒</span>
+        <p>Tu carrito está vacío.</p>
+        <small>Agrega algo rico para comenzar.</small>
+      </div>
+    `;
+
+    if (cartTotal) {
+      cartTotal.textContent = "$0.00";
+    }
+
+    return;
+  }
+
+  cartItems.innerHTML = cart
+    .map((item) => {
+      return `
+        <div class="cart-item">
+
+          <div class="cart-item-icon">
+            ${item.emoji}
+          </div>
+
+          <div class="cart-item-info">
+
+            <strong>${item.name}</strong>
+
+            <span>
+              ${formatPrice(item.price)}
+            </span>
+
+            <div class="cart-quantity">
+
+              <button
+                type="button"
+                data-cart-minus="${item.id}"
+              >
+                −
+              </button>
+
+              <span>${item.quantity}</span>
+
+              <button
+                type="button"
+                data-cart-plus="${item.id}"
+              >
+                +
+              </button>
+
+            </div>
+
+          </div>
 
           <button
-            aria-label="Eliminar"
-            onclick="
-              cart = cart.filter(
-                x => x.id !== '${product.id}'
-              );
-
-              saveCart();
-
-              renderCart();
-            "
+            class="cart-remove"
+            type="button"
+            data-cart-remove="${item.id}"
+            aria-label="Eliminar ${item.name}"
           >
-            ✕
+            ×
           </button>
 
-
         </div>
-
       `;
+    })
+    .join("");
 
-    }).join("");
-
-
-  const empty =
-    cart.length === 0;
-
-
-  $("cartEmpty").style.display =
-    empty
-    ? "block"
-    : "none";
-
-
-  $("cartItems").style.display =
-    empty
-    ? "none"
-    : "block";
-
-
-  $("sendWhatsApp").disabled =
-    empty;
-
-
-  $("sendWhatsApp").style.opacity =
-    empty
-    ? ".5"
-    : "1";
-
+  if (cartTotal) {
+    cartTotal.textContent = formatPrice(getCartTotal());
+  }
 }
 
 
-/* ==================== ABRIR CARRITO ==================== */
+/* =========================
+   ABRIR CARRITO
+========================= */
 
-function openCart(){
+function openCart() {
+  const cartDrawer = $("#cart-drawer");
+  const cartOverlay = $("#cart-overlay");
 
-  $("cart")
-    .classList
-    .add("open");
+  if (cartDrawer) {
+    cartDrawer.classList.add("active");
+  }
 
+  if (cartOverlay) {
+    cartOverlay.classList.add("active");
+  }
 
-  $("cartOverlay")
-    .classList
-    .add("open");
-
+  document.body.classList.add("cart-open");
 }
 
 
-/* ==================== CERRAR CARRITO ==================== */
+/* =========================
+   CERRAR CARRITO
+========================= */
 
-function closeCart(){
+function closeCart() {
+  const cartDrawer = $("#cart-drawer");
+  const cartOverlay = $("#cart-overlay");
 
-  $("cart")
-    .classList
-    .remove("open");
+  if (cartDrawer) {
+    cartDrawer.classList.remove("active");
+  }
 
+  if (cartOverlay) {
+    cartOverlay.classList.remove("active");
+  }
 
-  $("cartOverlay")
-    .classList
-    .remove("open");
-
+  document.body.classList.remove("cart-open");
 }
 
 
-/* ==================== WHATSAPP ==================== */
+/* =========================
+   WHATSAPP
+========================= */
 
-function sendWhatsApp(){
-
-  if(!cart.length)
+function sendOrderToWhatsApp() {
+  if (cart.length === 0) {
+    showNotification("Tu carrito está vacío.");
     return;
+  }
+
+  let message = "Hola, FULL BITE. Quiero hacer este pedido:%0A%0A";
+
+  cart.forEach((item) => {
+    const subtotal = item.price * item.quantity;
+
+    message += `${item.quantity}x ${item.name} - ${formatPrice(subtotal)}%0A`;
+  });
+
+  message += `%0A*Total: ${formatPrice(getCartTotal())}*`;
+  message += `%0A%0AGracias.`;
+
+  const whatsappURL =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+
+  window.open(whatsappURL, "_blank");
+}
 
 
-  const lines =
-    cart.map(item => {
+/* =========================
+   NOTIFICACIÓN
+========================= */
 
-      const product =
-        products.find(
-          x => x.id === item.id
-        );
+function showNotification(message) {
+  let notification = $("#fullbite-notification");
+
+  if (!notification) {
+    notification = document.createElement("div");
+
+    notification.id = "fullbite-notification";
+    notification.className = "fullbite-notification";
+
+    document.body.appendChild(notification);
+  }
+
+  notification.textContent = message;
+
+  notification.classList.add("show");
+
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 2200);
+}
 
 
-      return `• ${item.qty}x ${product.name} — ${money(
-        product.price * item.qty
-      )}`;
+/* =========================
+   FILTROS DEL MENÚ
+========================= */
+
+function setupFilters() {
+  const filterButtons = $$(".filter-btn");
+
+  filterButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+      selectedCategory =
+        button.dataset.category || "todos";
+
+      filterButtons.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      renderProducts();
 
     });
 
-
-  const message =
-    `Hola, quiero realizar un pedido en FULL BITE.%0A%0A` +
-
-    `*Pedido:*%0A` +
-
-    `${lines.join("%0A")}%0A%0A` +
-
-    `*Total: ${money(cartTotal())}*%0A%0A` +
-
-    `¿Me confirman el pedido?`;
+  });
+}
 
 
-  window.open(
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
-    "_blank"
-  );
+/* =========================
+   EVENTOS DEL CARRITO
+========================= */
+
+function setupCartEvents() {
+
+  document.addEventListener("click", (event) => {
+
+    const addButton =
+      event.target.closest("[data-add-product]");
+
+    if (addButton) {
+
+      const productId =
+        addButton.dataset.addProduct;
+
+      addToCart(productId);
+
+      return;
+    }
+
+
+    const plusButton =
+      event.target.closest("[data-cart-plus]");
+
+    if (plusButton) {
+
+      changeQuantity(
+        plusButton.dataset.cartPlus,
+        1
+      );
+
+      return;
+    }
+
+
+    const minusButton =
+      event.target.closest("[data-cart-minus]");
+
+    if (minusButton) {
+
+      changeQuantity(
+        minusButton.dataset.cartMinus,
+        -1
+      );
+
+      return;
+    }
+
+
+    const removeButton =
+      event.target.closest("[data-cart-remove]");
+
+    if (removeButton) {
+
+      removeFromCart(
+        removeButton.dataset.cartRemove
+      );
+
+      return;
+    }
+
+  });
 
 }
 
 
-/* ==================== FILTROS ==================== */
+/* =========================
+   BOTONES DEL CARRITO
+========================= */
 
-document
-  .querySelectorAll(".filter")
-  .forEach(btn => {
+function setupCartButtons() {
 
-    btn.addEventListener(
+  const cartButtons =
+    $$("[data-open-cart]");
+
+  cartButtons.forEach((button) => {
+    button.addEventListener("click", openCart);
+  });
+
+
+  const closeButtons =
+    $$("[data-close-cart]");
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", closeCart);
+  });
+
+
+  const overlay =
+    $("#cart-overlay");
+
+  if (overlay) {
+    overlay.addEventListener("click", closeCart);
+  }
+
+
+  const whatsappButton =
+    $("#whatsapp-order");
+
+  if (whatsappButton) {
+    whatsappButton.addEventListener(
       "click",
-      () => {
-
-
-        document
-          .querySelectorAll(".filter")
-          .forEach(
-            x =>
-              x.classList
-                .remove("active")
-          );
-
-
-        btn.classList.add("active");
-
-
-        selectedCategory =
-          btn.dataset.category;
-
-
-        renderProducts();
-
-      }
+      sendOrderToWhatsApp
     );
+  }
+
+}
+
+
+/* =========================
+   PEDIR AHORA DESDE HERO
+========================= */
+
+function setupHeroOrder() {
+
+  const heroOrder =
+    $("#hero-order");
+
+  if (!heroOrder) return;
+
+  heroOrder.addEventListener("click", () => {
+
+    if (cart.length > 0) {
+      openCart();
+    } else {
+
+      const menu =
+        $("#menu");
+
+      if (menu) {
+        menu.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+
+    }
+
+  });
+
+}
+
+
+/* =========================
+   MENÚ MÓVIL
+========================= */
+
+function setupMobileMenu() {
+
+  const menuButton =
+    $("#mobile-menu-btn");
+
+  const mobileMenu =
+    $("#mobile-menu");
+
+  if (!menuButton || !mobileMenu) return;
+
+
+  menuButton.addEventListener("click", () => {
+
+    mobileMenu.classList.toggle("active");
+
+    menuButton.classList.toggle("active");
 
   });
 
 
-/* ==================== CARRITO ==================== */
+  const links =
+    mobileMenu.querySelectorAll("a");
 
-$("openCart")
-  .addEventListener(
-    "click",
-    openCart
-  );
+  links.forEach((link) => {
 
+    link.addEventListener("click", () => {
 
-$("closeCart")
-  .addEventListener(
-    "click",
-    closeCart
-  );
+      mobileMenu.classList.remove("active");
 
+      menuButton.classList.remove("active");
 
-$("cartOverlay")
-  .addEventListener(
-    "click",
-    closeCart
-  );
-
-
-$("goMenu")
-  .addEventListener(
-    "click",
-    () => {
-
-      closeCart();
-
-
-      $("menu")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
-
-    }
-  );
-
-
-$("sendWhatsApp")
-  .addEventListener(
-    "click",
-    sendWhatsApp
-  );
-
-
-/* ==================== BOTÓN PEDIR AHORA ==================== */
-
-$("heroOrder")
-  .addEventListener(
-    "click",
-    () => {
-
-      $("menu")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
-
-    }
-  );
-
-
-/* ==================== MENÚ MÓVIL ==================== */
-
-$("menuToggle")
-  .addEventListener(
-    "click",
-    () => {
-
-      $("nav")
-        .classList
-        .toggle("open");
-
-    }
-  );
-
-
-document
-  .querySelectorAll(".nav a")
-  .forEach(a => {
-
-    a.addEventListener(
-      "click",
-      () => {
-
-        $("nav")
-          .classList
-          .remove("open");
-
-      }
-    );
+    });
 
   });
 
+}
 
-/* ==================== INICIAR ==================== */
 
-renderProducts();
+/* =========================
+   SCROLL SUAVE
+========================= */
 
-renderCart();
+function setupSmoothScroll() {
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+
+    link.addEventListener("click", (event) => {
+
+      const targetId =
+        link.getAttribute("href");
+
+      if (!targetId || targetId === "#") {
+        return;
+      }
+
+      const target =
+        document.querySelector(targetId);
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    });
+
+  });
+
+}
+
+
+/* =========================
+   INICIO
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  renderProducts();
+
+  renderCart();
+
+  updateCartCount();
+
+  setupFilters();
+
+  setupCartEvents();
+
+  setupCartButtons();
+
+  setupHeroOrder();
+
+  setupMobileMenu();
+
+  setupSmoothScroll();
+
+});
