@@ -435,16 +435,11 @@ function renderMenuProducts(category = "todos") {
 function createProductCard(product) {
 
   return `
-
     <article class="product-card">
 
       ${
         product.featured
-          ? `
-            <span class="badge">
-              MÁS PEDIDO
-            </span>
-          `
+          ? `<span class="badge">MÁS PEDIDO</span>`
           : ""
       }
 
@@ -454,13 +449,9 @@ function createProductCard(product) {
 
       <div class="product-info">
 
-        <h3>
-          ${product.name}
-        </h3>
+        <h3>${product.name}</h3>
 
-        <p>
-          ${product.description}
-        </p>
+        <p>${product.description}</p>
 
       </div>
 
@@ -473,7 +464,7 @@ function createProductCard(product) {
         <button
           class="add-btn"
           type="button"
-          onclick="addToCart(${product.id})"
+          data-product-id="${product.id}"
         >
           AGREGAR +
         </button>
@@ -481,9 +472,7 @@ function createProductCard(product) {
       </div>
 
     </article>
-
   `;
-
 }
 
 
