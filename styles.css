@@ -333,30 +333,26 @@ h2 span{
 }
 
 
-/* IMAGEN DEL HERO */
 
-.hero-art{
-  width:100%;
-  height:500px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  z-index:1;
-}
+/* ==================== CATEGORÍAS DEL HERO ==================== */
+.hero-categories{position:relative;z-index:5;width:min(510px,100%);min-height:430px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-content:center;justify-content:center;transform:rotate(-2deg);}
+.hero-category{min-height:190px;padding:25px 22px;border-radius:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 15px 30px rgba(45,20,8,.15);transition:transform .25s ease,box-shadow .25s ease;border:3px solid var(--dark);}
+.hero-category:hover{transform:translateY(-7px) rotate(1deg);box-shadow:0 22px 35px rgba(45,20,8,.2);}
+.hero-category-icon{font-size:4.3rem;line-height:1;margin-bottom:15px;}
+.hero-category strong{font-family:"Anton",sans-serif;font-size:1.7rem;letter-spacing:.5px;}
+.hero-category small{margin-top:5px;font-size:.75rem;font-weight:700;opacity:.75;}
+.hero-category-hotdog{background:var(--yellow);}
+.hero-category-fries{background:var(--red);color:#fff;}
+.hero-category-drinks{background:#fff;}
+.hero-category-combos{background:var(--orange);color:#fff;}
+.hero-decoration{position:absolute;pointer-events:none;z-index:1;}
+.hero-circle{width:420px;height:420px;right:-150px;top:100px;border-radius:50%;background:rgba(215,25,32,.08);}
+.hero-star{font-size:4rem;color:var(--red);font-weight:900;}
+.star-one{right:46%;top:90px;transform:rotate(15deg);}
+.star-two{right:5%;bottom:45px;font-size:3rem;color:var(--yellow);transform:rotate(-20deg);}
+.hero-line{width:160px;height:12px;left:7%;bottom:45px;background:var(--red);border-radius:999px;transform:rotate(-2deg);}
 
-
-.hero-art img{
-  width:100%;
-  max-width:560px;
-  height:500px;
-  object-fit:contain;
-  object-position:center;
-  display:block;
-}
-
-
-/* EVITA QUE LA IMAGEN SE META EN LA SIGUIENTE SECCIÓN */
+/* EVITA QUE LA SECCIÓN SIGUIENTE SE MONTE SOBRE EL HERO */
 
 .hero + .section{
   position:relative;
@@ -1358,10 +1354,11 @@ footer small{
   }
 
 
-  .hero-art{
-
-    height:360px;
-
+  .hero-categories{
+    width:100%;
+    max-width:560px;
+    min-height:auto;
+    margin:0 auto;
   }
 
 
@@ -1462,25 +1459,34 @@ footer small{
   }
 
 
-  .hero-art{
-
-    height:300px;
-
+  .hero-categories{
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    transform:rotate(-1deg);
   }
 
-
-  .hero-placeholder{
-
-    height:260px;
-
+  .hero-category{
+    min-height:145px;
+    padding:18px 12px;
+    border-radius:18px;
   }
 
-
-  .hero-placeholder span{
-
-    font-size:4.5rem;
-
+  .hero-category-icon{
+    font-size:3.2rem;
+    margin-bottom:10px;
   }
+
+  .hero-category strong{
+    font-size:1.3rem;
+  }
+
+  .hero-category small{
+    font-size:.65rem;
+  }
+
+  .hero-notes{gap:10px;}
+  .hero-notes span{font-size:.7rem;}
+  .hero-line{left:5%;bottom:25px;width:100px;}
 
 
   .product-grid,
