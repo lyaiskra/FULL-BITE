@@ -151,6 +151,18 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCart();
 
   setupEvents();
+   document.addEventListener("click", (event) => {
+
+  const button = event.target.closest(".add-btn");
+
+  if (!button) return;
+
+  const productId =
+    Number(button.dataset.productId);
+
+  addToCart(productId);
+
+});
 
 });
 
