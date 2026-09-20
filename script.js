@@ -1,169 +1,157 @@
 /* =========================================================
    FULL BITE
-   script.js
+   SCRIPT PRINCIPAL
    ========================================================= */
 
 
-/* =========================
+/* =========================================================
    PRODUCTOS
-========================= */
+   ========================================================= */
 
 const products = [
   {
     id: 1,
     name: "Hotdog Clásico",
-    category: "hotdogs",
     price: 1.00,
+    category: "hotdogs",
     icon: "🌭",
     description: "Pan, salchicha y los clásicos acompañamientos.",
-    badge: "CLÁSICO"
+    badge: "Clásico"
   },
 
   {
     id: 2,
     name: "Combo #1",
-    category: "combos",
     price: 1.50,
+    category: "combos",
     icon: "🌭🥤",
     description: "Hotdog + bebida",
-    badge: "COMBO"
+    badge: "Combo"
   },
 
   {
     id: 3,
     name: "Combo #2",
-    category: "combos",
     price: 2.00,
+    category: "combos",
     icon: "🌭🍟🥤",
     description: "Hotdog + papas + bebida",
-    badge: "COMBO"
+    badge: "Combo"
   },
 
   {
     id: 4,
     name: "Papas Fritas",
-    category: "papas",
     price: 0.50,
+    category: "papas",
     icon: "🍟",
-    description: "Papas fritas para acompañar tu antojo.",
-    badge: ""
+    description: "Papas crujientes para acompañar tu antojo.",
+    badge: "Favorito"
   },
 
   {
     id: 5,
     name: "Soda",
-    category: "bebidas",
     price: 0.50,
+    category: "bebidas",
     icon: "🥤",
-    description: "Una bebida fría para acompañar.",
-    badge: ""
+    description: "Una bebida fría para acompañar tu pedido.",
+    badge: "Bebida"
   },
 
   {
     id: 6,
     name: "Vaso de soda",
-    category: "bebidas",
     price: 0.25,
+    category: "bebidas",
     icon: "🥤",
-    description: "Vaso de soda.",
-    badge: ""
+    description: "Una opción pequeña para refrescarte.",
+    badge: "Bebida"
   }
 ];
 
 
-/* =========================
+/* =========================================================
    VARIABLES
-========================= */
+   ========================================================= */
 
-const cart = [];
+let cart = [];
 
-const featuredProducts = document.getElementById(
-  "featuredProducts"
-);
+const WHATSAPP_NUMBER = "50769275725";
 
-const menuProducts = document.getElementById(
-  "menuProducts"
-);
+const CART_STORAGE_KEY = "fullBiteCart";
+const ORDER_STORAGE_KEY = "fullBiteOrderNumber";
+const OPINION_STORAGE_KEY = "fullBiteOpinion";
 
-const cartElement = document.getElementById("cart");
 
-const cartOverlay = document.getElementById(
-  "cartOverlay"
-);
+/* =========================================================
+   ELEMENTOS DEL DOM
+   ========================================================= */
 
-const cartItems = document.getElementById(
-  "cartItems"
-);
+const menuProducts = document.getElementById("menuProducts");
+const featuredProducts = document.getElementById("featuredProducts");
 
-const cartEmpty = document.getElementById(
-  "cartEmpty"
-);
+const filters = document.getElementById("filters");
 
-const cartCount = document.getElementById(
-  "cartCount"
-);
+const openCartButton = document.getElementById("openCart");
+const closeCartButton = document.getElementById("closeCart");
 
-const cartTotal = document.getElementById(
-  "cartTotal"
-);
+const cart = document.getElementById("cart");
+const cartOverlay = document.getElementById("cartOverlay");
 
-const openCartButton = document.getElementById(
-  "openCart"
-);
+const cartItems = document.getElementById("cartItems");
+const cartEmpty = document.getElementById("cartEmpty");
 
-const closeCartButton = document.getElementById(
-  "closeCart"
-);
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
 
-const sendWhatsAppButton = document.getElementById(
-  "sendWhatsApp"
-);
+const cartGoMenu = document.getElementById("cartGoMenu");
+const sendWhatsAppButton = document.getElementById("sendWhatsApp");
 
-const emptyCartMenu = document.getElementById(
-  "emptyCartMenu"
-);
+const heroOrderButton = document.getElementById("heroOrder");
 
-const menuToggle = document.getElementById(
-  "menuToggle"
-);
-
+const menuToggle = document.getElementById("menuToggle");
 const nav = document.getElementById("nav");
 
-const heroOrder = document.getElementById(
-  "heroOrder"
-);
+const opinionForm = document.getElementById("opinionForm");
+const opinionName = document.getElementById("opinionName");
+const opinionRating = document.getElementById("opinionRating");
+const opinionText = document.getElementById("opinionText");
+
+const opinionMessage = document.getElementById("opinionMessage");
+const savedOpinion = document.getElementById("savedOpinion");
 
 
-/* =========================
-   FORMATO DE PRECIO
-========================= */
+/* =========================================================
+   FORMATO DE PRECIOS
+   ========================================================= */
 
 function formatPrice(price) {
   return `$${price.toFixed(2)}`;
 }
 
 
-/* =========================
-   CREAR PRODUCTO
-========================= */
+/* =========================================================
+   RENDER DE PRODUCTOS
+   ========================================================= */
 
 function createProductCard(product) {
   return `
     <article class="product-card">
 
-      ${
-        product.badge
-          ? `<span class="badge">${product.badge}</span>`
-          : ""
-      }
-
       <div class="product-visual">
-        ${product.icon}
+        <span aria-hidden="true">${product.icon}</span>
       </div>
 
       <div class="product-info">
 
-        <h3>${product.name}</h3>
+        <span class="badge">
+          ${product.badge}
+        </span>
+
+        <h3>
+          ${product.name}
+        </h3>
 
         <p>
           ${product.description}
@@ -193,87 +181,69 @@ function createProductCard(product) {
 }
 
 
-/* =========================
-   MOSTRAR MENÚ
-========================= */
-
-function renderProducts(filter = "all") {
-
-  if (!menuProducts) return;
-
-  const filteredProducts =
-    filter === "all"
-      ? products
-      : products.filter(
-          product => product.category === filter
-        );
-
-  menuProducts.innerHTML =
-    filteredProducts
-      .map(createProductCard)
-      .join("");
-
-}
-
-
-/* =========================
-   DESTACADOS
-========================= */
-
 function renderFeaturedProducts() {
-
   if (!featuredProducts) return;
 
   const featured = products.slice(0, 3);
 
-  featuredProducts.innerHTML =
-    featured
-      .map(createProductCard)
-      .join("");
-
+  featuredProducts.innerHTML = featured
+    .map(createProductCard)
+    .join("");
 }
 
 
-/* =========================
-   AGREGAR AL CARRITO
-========================= */
+function renderProducts(category = "all") {
+  if (!menuProducts) return;
+
+  const filteredProducts =
+    category === "all"
+      ? products
+      : products.filter(product => product.category === category);
+
+  menuProducts.innerHTML = filteredProducts
+    .map(createProductCard)
+    .join("");
+}
+
+
+/* =========================================================
+   AGREGAR PRODUCTOS
+   ========================================================= */
 
 function addToCart(productId) {
-
   const product = products.find(
     item => item.id === Number(productId)
   );
 
   if (!product) return;
 
-  const existing = cart.find(
+  const existingItem = cart.find(
     item => item.id === product.id
   );
 
-  if (existing) {
-    existing.quantity++;
+  if (existingItem) {
+    existingItem.quantity++;
   } else {
     cart.push({
-      ...product,
+      id: product.id,
       quantity: 1
     });
   }
 
-  updateCart();
+  saveCart();
+  renderCart();
 
   openCart();
-
 }
 
 
-/* =========================
+/* =========================================================
    CAMBIAR CANTIDAD
-========================= */
+   ========================================================= */
 
 function changeQuantity(productId, amount) {
-
   const item = cart.find(
-    product => product.id === Number(productId)
+    cartItem => cartItem.id === Number(productId)
   );
 
   if (!item) return;
@@ -281,177 +251,257 @@ function changeQuantity(productId, amount) {
   item.quantity += amount;
 
   if (item.quantity <= 0) {
-
-    const index = cart.indexOf(item);
-
-    if (index !== -1) {
-      cart.splice(index, 1);
-    }
-
+    cart = cart.filter(
+      cartItem => cartItem.id !== Number(productId)
+    );
   }
 
-  updateCart();
-
+  saveCart();
+  renderCart();
 }
 
 
-/* =========================
-   MOSTRAR CARRITO
-========================= */
+/* =========================================================
+   ELIMINAR PRODUCTO
+   ========================================================= */
+
+function removeFromCart(productId) {
+  cart = cart.filter(
+    item => item.id !== Number(productId)
+  );
+
+  saveCart();
+  renderCart();
+}
+
+
+/* =========================================================
+   TOTAL DEL CARRITO
+   ========================================================= */
+
+function calculateTotal() {
+  return cart.reduce((total, item) => {
+
+    const product = products.find(
+      productItem => productItem.id === item.id
+    );
+
+    if (!product) return total;
+
+    return total + (product.price * item.quantity);
+
+  }, 0);
+}
+
+
+/* =========================================================
+   CANTIDAD TOTAL
+   ========================================================= */
+
+function calculateQuantity() {
+  return cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+}
+
+
+/* =========================================================
+   RENDER DEL CARRITO
+   ========================================================= */
 
 function renderCart() {
-
   if (!cartItems) return;
+
+  const total = calculateTotal();
+  const quantity = calculateQuantity();
+
+  cartCount.textContent = quantity;
+  cartTotal.textContent = formatPrice(total);
+
 
   if (cart.length === 0) {
 
     cartItems.innerHTML = "";
 
+    cartItems.style.display = "none";
+
     cartEmpty.style.display = "flex";
 
-    return;
+    sendWhatsAppButton.disabled = true;
+    sendWhatsAppButton.style.opacity = "0.5";
+    sendWhatsAppButton.style.pointerEvents = "none";
 
+    return;
   }
 
+
+  cartItems.style.display = "block";
   cartEmpty.style.display = "none";
 
-  cartItems.innerHTML = cart
-    .map(item => {
+  sendWhatsAppButton.disabled = false;
+  sendWhatsAppButton.style.opacity = "1";
+  sendWhatsAppButton.style.pointerEvents = "auto";
 
-      const subtotal =
-        item.price * item.quantity;
 
-      return `
-        <div class="cart-item">
+  cartItems.innerHTML = cart.map(item => {
 
-          <div class="cart-item-icon">
-            ${item.icon}
-          </div>
+    const product = products.find(
+      productItem => productItem.id === item.id
+    );
 
-          <div>
+    if (!product) return "";
 
-            <h4>
-              ${item.name}
-            </h4>
+    const subtotal =
+      product.price * item.quantity;
 
-            <span class="cart-item-price">
-              ${formatPrice(subtotal)}
-            </span>
+    return `
+      <div class="cart-item">
 
-            <div class="qty">
+        <div class="cart-item-icon">
+          ${product.icon}
+        </div>
 
-              <button
-                type="button"
-                data-quantity="${item.id}"
-                data-change="-1"
-                aria-label="Disminuir cantidad"
-              >
-                −
-              </button>
+        <div>
+          <h4>
+            ${product.name}
+          </h4>
 
-              <span>
-                ${item.quantity}
-              </span>
+          <p class="cart-item-price">
+            ${formatPrice(subtotal)}
+          </p>
+        </div>
 
-              <button
-                type="button"
-                data-quantity="${item.id}"
-                data-change="1"
-                aria-label="Aumentar cantidad"
-              >
-                +
-              </button>
+        <div class="qty">
 
-            </div>
+          <button
+            type="button"
+            data-minus="${product.id}"
+            aria-label="Disminuir cantidad"
+          >
+            −
+          </button>
 
-          </div>
+          <span>
+            ${item.quantity}
+          </span>
+
+          <button
+            type="button"
+            data-plus="${product.id}"
+            aria-label="Aumentar cantidad"
+          >
+            +
+          </button>
 
         </div>
-      `;
-    })
-    .join("");
 
+      </div>
+    `;
+
+  }).join("");
 }
 
 
-/* =========================
-   ACTUALIZAR CARRITO
-========================= */
+/* =========================================================
+   GUARDAR CARRITO
+   ========================================================= */
 
-function updateCart() {
-
-  renderCart();
-
-  const totalItems = cart.reduce(
-    (total, item) =>
-      total + item.quantity,
-    0
+function saveCart() {
+  localStorage.setItem(
+    CART_STORAGE_KEY,
+    JSON.stringify(cart)
   );
-
-  const totalPrice = cart.reduce(
-    (total, item) =>
-      total +
-      item.price * item.quantity,
-    0
-  );
-
-  if (cartCount) {
-    cartCount.textContent = totalItems;
-  }
-
-  if (cartTotal) {
-    cartTotal.textContent =
-      formatPrice(totalPrice);
-  }
-
 }
 
 
-/* =========================
+/* =========================================================
+   CARGAR CARRITO
+   ========================================================= */
+
+function loadCart() {
+
+  try {
+
+    const savedCart =
+      localStorage.getItem(CART_STORAGE_KEY);
+
+    if (!savedCart) {
+      cart = [];
+      return;
+    }
+
+    const parsedCart = JSON.parse(savedCart);
+
+    if (!Array.isArray(parsedCart)) {
+      cart = [];
+      return;
+    }
+
+    cart = parsedCart.filter(item => {
+
+      const productExists = products.some(
+        product => product.id === Number(item.id)
+      );
+
+      return (
+        productExists &&
+        Number(item.quantity) > 0
+      );
+
+    }).map(item => ({
+      id: Number(item.id),
+      quantity: Number(item.quantity)
+    }));
+
+  } catch (error) {
+
+    cart = [];
+
+    console.warn(
+      "No se pudo cargar el carrito.",
+      error
+    );
+
+  }
+}
+
+
+/* =========================================================
    ABRIR CARRITO
-========================= */
+   ========================================================= */
 
 function openCart() {
 
-  if (!cartElement || !cartOverlay) return;
-
-  cartElement.classList.add("open");
-
+  cart.classList.add("open");
   cartOverlay.classList.add("open");
 
-  document.body.classList.add("cart-open");
-
+  document.body.style.overflow = "hidden";
 }
 
 
-/* =========================
+/* =========================================================
    CERRAR CARRITO
-========================= */
+   ========================================================= */
 
 function closeCart() {
 
-  if (!cartElement || !cartOverlay) return;
-
-  cartElement.classList.remove("open");
-
+  cart.classList.remove("open");
   cartOverlay.classList.remove("open");
 
-  document.body.classList.remove("cart-open");
-
+  document.body.style.overflow = "";
 }
 
 
-/* =========================
+/* =========================================================
    NÚMERO DE PEDIDO
    FB-01 → FB-99
-========================= */
+   ========================================================= */
 
 function generateOrderNumber() {
 
   let lastOrder = Number(
-    localStorage.getItem(
-      "fullBiteOrderNumber"
-    ) || 0
+    localStorage.getItem(ORDER_STORAGE_KEY) || 0
   );
 
   if (lastOrder >= 99) {
@@ -461,7 +511,7 @@ function generateOrderNumber() {
   }
 
   localStorage.setItem(
-    "fullBiteOrderNumber",
+    ORDER_STORAGE_KEY,
     String(lastOrder)
   );
 
@@ -469,151 +519,203 @@ function generateOrderNumber() {
 }
 
 
-/* =========================
-   ENVIAR A WHATSAPP
-========================= */
+/* =========================================================
+   ENVIAR PEDIDO POR WHATSAPP
+   ========================================================= */
 
-function sendWhatsAppOrder() {
+function sendOrderToWhatsApp() {
 
-  if (cart.length === 0) {
+  if (cart.length === 0) return;
 
-    alert(
-      "Agrega al menos un producto a tu pedido."
+  const orderNumber = generateOrderNumber();
+
+  const total = calculateTotal();
+
+  let message = "";
+
+  message += `*FULL BITE* 🍔\n`;
+  message += `*Pedido ${orderNumber}*\n\n`;
+
+  message += `Hola, quiero realizar el siguiente pedido:\n\n`;
+
+
+  cart.forEach(item => {
+
+    const product = products.find(
+      productItem => productItem.id === item.id
     );
 
-    return;
-  }
-
-  const orderNumber =
-    generateOrderNumber();
-
-  let total = 0;
-
-  const orderLines = cart.map(item => {
+    if (!product) return;
 
     const subtotal =
-      item.price * item.quantity;
+      product.price * item.quantity;
 
-    total += subtotal;
-
-    return (
-      `• ${item.name} x${item.quantity}` +
-      ` — ${formatPrice(subtotal)}`
-    );
+    message += `• ${product.name} x${item.quantity}`;
+    message += ` — ${formatPrice(subtotal)}\n`;
 
   });
 
 
-  const message =
-`Hola, FULL BITE. Quiero realizar el siguiente pedido:
+  message += `\n*TOTAL: ${formatPrice(total)}*\n\n`;
 
-PEDIDO: ${orderNumber}
+  message += `📍 Retiro en Colegio Secundario La Peña\n`;
 
-${orderLines.join("\n")}
+  message += `🎟️ Número de pedido: *${orderNumber}*`;
 
-TOTAL: ${formatPrice(total)}
-
-Quedo pendiente. ¡Gracias!`;
-
-
-  const phone =
-    "50769275725";
 
   const whatsappURL =
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 
   window.open(
     whatsappURL,
-    "_blank"
+    "_blank",
+    "noopener,noreferrer"
   );
 
 }
 
 
-/* =========================
+/* =========================================================
    FILTROS DEL MENÚ
-========================= */
+   ========================================================= */
 
 function setupFilters() {
 
-  const filterButtons =
-    document.querySelectorAll(
-      ".filter-btn"
+  if (!filters) return;
+
+  filters.addEventListener("click", event => {
+
+    const button =
+      event.target.closest(".filter-btn");
+
+    if (!button) return;
+
+    const category =
+      button.dataset.filter;
+
+    document
+      .querySelectorAll(".filter-btn")
+      .forEach(filterButton => {
+        filterButton.classList.remove("active");
+      });
+
+    button.classList.add("active");
+
+    renderProducts(category);
+
+  });
+}
+
+
+/* =========================================================
+   BOTONES DE PRODUCTOS
+   ========================================================= */
+
+document.addEventListener("click", event => {
+
+  const addButton =
+    event.target.closest("[data-add]");
+
+  if (addButton) {
+
+    const productId =
+      Number(addButton.dataset.add);
+
+    addToCart(productId);
+
+    return;
+  }
+
+
+  const plusButton =
+    event.target.closest("[data-plus]");
+
+  if (plusButton) {
+
+    const productId =
+      Number(plusButton.dataset.plus);
+
+    changeQuantity(productId, 1);
+
+    return;
+  }
+
+
+  const minusButton =
+    event.target.closest("[data-minus]");
+
+  if (minusButton) {
+
+    const productId =
+      Number(minusButton.dataset.minus);
+
+    changeQuantity(productId, -1);
+
+  }
+
+});
+
+
+/* =========================================================
+   MENÚ MÓVIL
+   ========================================================= */
+
+function closeMobileMenu() {
+
+  if (!nav) return;
+
+  nav.classList.remove("open");
+
+  if (menuToggle) {
+    menuToggle.setAttribute(
+      "aria-expanded",
+      "false"
     );
+  }
+}
 
-  filterButtons.forEach(button => {
 
-    button.addEventListener(
-      "click",
-      () => {
+function toggleMobileMenu() {
 
-        filterButtons.forEach(
-          item =>
-            item.classList.remove("active")
-        );
+  if (!nav) return;
 
-        button.classList.add("active");
+  const isOpen =
+    nav.classList.toggle("open");
 
-        const filter =
-          button.dataset.filter;
+  menuToggle.setAttribute(
+    "aria-expanded",
+    String(isOpen)
+  );
+}
 
-        renderProducts(filter);
 
-      }
-    );
+if (menuToggle) {
+
+  menuToggle.addEventListener(
+    "click",
+    toggleMobileMenu
+  );
+
+}
+
+
+if (nav) {
+
+  nav.addEventListener("click", event => {
+
+    if (event.target.closest("a")) {
+      closeMobileMenu();
+    }
 
   });
 
 }
 
 
-/* =========================
-   CLICS EN PRODUCTOS
-========================= */
-
-document.addEventListener(
-  "click",
-  event => {
-
-    const addButton =
-      event.target.closest(
-        "[data-add]"
-      );
-
-    if (addButton) {
-
-      addToCart(
-        addButton.dataset.add
-      );
-
-      return;
-    }
-
-
-    const quantityButton =
-      event.target.closest(
-        "[data-quantity]"
-      );
-
-    if (quantityButton) {
-
-      changeQuantity(
-        quantityButton.dataset.quantity,
-        Number(
-          quantityButton.dataset.change
-        )
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================
-   CARRITO
-========================= */
+/* =========================================================
+   BOTONES DEL CARRITO
+   ========================================================= */
 
 if (openCartButton) {
 
@@ -624,6 +726,7 @@ if (openCartButton) {
 
 }
 
+
 if (closeCartButton) {
 
   closeCartButton.addEventListener(
@@ -632,6 +735,7 @@ if (closeCartButton) {
   );
 
 }
+
 
 if (cartOverlay) {
 
@@ -642,53 +746,52 @@ if (cartOverlay) {
 
 }
 
+
+if (cartGoMenu) {
+
+  cartGoMenu.addEventListener(
+    "click",
+    () => {
+
+      closeCart();
+
+      document
+        .getElementById("menu")
+        ?.scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+  );
+
+}
+
+
 if (sendWhatsAppButton) {
 
   sendWhatsAppButton.addEventListener(
     "click",
-    sendWhatsAppOrder
-  );
-
-}
-
-if (emptyCartMenu) {
-
-  emptyCartMenu.addEventListener(
-    "click",
-    closeCart
+    sendOrderToWhatsApp
   );
 
 }
 
 
-/* =========================
-   BOTÓN PEDIR AHORA
-========================= */
+/* =========================================================
+   BOTÓN "PEDIR AHORA" DEL HERO
+   ========================================================= */
 
-if (heroOrder) {
+if (heroOrderButton) {
 
-  heroOrder.addEventListener(
+  heroOrderButton.addEventListener(
     "click",
     () => {
 
-      if (cart.length > 0) {
-
-        openCart();
-
-      } else {
-
-        const menu =
-          document.getElementById(
-            "menu"
-          );
-
-        if (menu) {
-          menu.scrollIntoView({
-            behavior: "smooth"
-          });
-        }
-
-      }
+      document
+        .getElementById("menu")
+        ?.scrollIntoView({
+          behavior: "smooth"
+        });
 
     }
   );
@@ -696,110 +799,41 @@ if (heroOrder) {
 }
 
 
-/* =========================
-   MENÚ MÓVIL
-========================= */
-
-if (menuToggle && nav) {
-
-  menuToggle.addEventListener(
-    "click",
-    () => {
-
-      nav.classList.toggle("open");
-
-    }
-  );
-
-
-  nav.querySelectorAll("a")
-    .forEach(link => {
-
-      link.addEventListener(
-        "click",
-        () => {
-
-          nav.classList.remove(
-            "open"
-          );
-
-        }
-      );
-
-    });
-
-}
-
-
-/* =========================
+/* =========================================================
    OPINIONES
-========================= */
+   ========================================================= */
 
-const opinionForm =
-  document.getElementById(
-    "opinionForm"
-  );
-
-const opinionName =
-  document.getElementById(
-    "opinionName"
-  );
-
-const opinionRating =
-  document.getElementById(
-    "opinionRating"
-  );
-
-const opinionText =
-  document.getElementById(
-    "opinionText"
-  );
-
-const opinionMessage =
-  document.getElementById(
-    "opinionMessage"
-  );
-
-const savedOpinion =
-  document.getElementById(
-    "savedOpinion"
-  );
-
-
-function loadSavedOpinion() {
+function renderSavedOpinion() {
 
   if (!savedOpinion) return;
 
   const saved =
-    localStorage.getItem(
-      "fullBiteOpinion"
-    );
+    localStorage.getItem(OPINION_STORAGE_KEY);
 
-  if (!saved) return;
+  if (!saved) {
+    savedOpinion.innerHTML = "";
+    return;
+  }
 
   try {
 
-    const opinion =
-      JSON.parse(saved);
+    const opinion = JSON.parse(saved);
 
     const stars =
-      "★".repeat(
-        Number(opinion.rating)
-      ) +
-      "☆".repeat(
-        5 - Number(opinion.rating)
-      );
+      "★".repeat(Number(opinion.rating)) +
+      "☆".repeat(5 - Number(opinion.rating));
+
 
     savedOpinion.innerHTML = `
-      <div class="saved-opinion-card">
+      <div class="saved-opinion-content">
 
         <strong>
           ${opinion.name}
         </strong>
 
-        <div>
+        <span>
           ${stars}
-        </div>
+        </span>
 
         <p>
           ${opinion.text}
@@ -810,7 +844,9 @@ function loadSavedOpinion() {
 
   } catch (error) {
 
-    console.error(
+    savedOpinion.innerHTML = "";
+
+    console.warn(
       "No se pudo cargar la opinión.",
       error
     );
@@ -833,7 +869,7 @@ if (opinionForm) {
         opinionName.value.trim();
 
       const rating =
-        opinionRating.value;
+        Number(opinionRating.value);
 
       const text =
         opinionText.value.trim();
@@ -845,12 +881,8 @@ if (opinionForm) {
         !text
       ) {
 
-        if (opinionMessage) {
-
-          opinionMessage.textContent =
-            "Completa todos los campos.";
-
-        }
+        opinionMessage.textContent =
+          "Completa todos los campos.";
 
         return;
       }
@@ -864,22 +896,18 @@ if (opinionForm) {
 
 
       localStorage.setItem(
-        "fullBiteOpinion",
+        OPINION_STORAGE_KEY,
         JSON.stringify(opinion)
       );
 
 
-      if (opinionMessage) {
-
-        opinionMessage.textContent =
-          "¡Gracias por compartir tu opinión!";
-
-      }
+      opinionMessage.textContent =
+        "¡Gracias por tu opinión!";
 
 
       opinionForm.reset();
 
-      loadSavedOpinion();
+      renderSavedOpinion();
 
     }
   );
@@ -887,9 +915,9 @@ if (opinionForm) {
 }
 
 
-/* =========================
-   ESC PARA CERRAR
-========================= */
+/* =========================================================
+   TECLA ESC
+   ========================================================= */
 
 document.addEventListener(
   "keydown",
@@ -898,12 +926,7 @@ document.addEventListener(
     if (event.key === "Escape") {
 
       closeCart();
-
-      if (nav) {
-        nav.classList.remove(
-          "open"
-        );
-      }
+      closeMobileMenu();
 
     }
 
@@ -911,23 +934,28 @@ document.addEventListener(
 );
 
 
-/* =========================
-   INICIALIZAR
-========================= */
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
 
 function init() {
 
-  renderProducts();
+  loadCart();
 
   renderFeaturedProducts();
 
-  updateCart();
+  renderProducts("all");
+
+  renderCart();
+
+  renderSavedOpinion();
 
   setupFilters();
-
-  loadSavedOpinion();
 
 }
 
 
-init();
+document.addEventListener(
+  "DOMContentLoaded",
+  init
+);
