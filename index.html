@@ -18,7 +18,7 @@
   <title>FULL BITE | Hazle caso al antojo</title>
 
 
-  <!-- ==================== GOOGLE FONTS ==================== -->
+  <!-- Google Fonts -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -34,7 +34,7 @@
   >
 
 
-  <!-- ==================== FAVICON ==================== -->
+  <!-- Logo de la pestaña -->
 
   <link
     rel="icon"
@@ -43,7 +43,7 @@
   >
 
 
-  <!-- ==================== CSS ==================== -->
+  <!-- CSS -->
 
   <link
     rel="stylesheet"
@@ -106,7 +106,6 @@
     <button
       class="cart-button"
       id="openCart"
-      type="button"
       aria-label="Abrir carrito"
     >
 
@@ -128,7 +127,6 @@
     <button
       class="menu-toggle"
       id="menuToggle"
-      type="button"
       aria-label="Abrir menú"
     >
       ☰
@@ -149,29 +147,23 @@
       id="inicio"
     >
 
-
       <div class="hero-copy">
-
 
         <p class="eyebrow">
           FULL BITE • HAZLE CASO AL ANTOJO
         </p>
-
 
         <h1>
           ¿TIENES<br>
           <span>HAMBRE?</span>
         </h1>
 
-
         <p class="hero-text">
           El antojo ya sabe dónde encontrarte.
           Elige algo rico, arma tu pedido y disfruta.
         </p>
 
-
         <div class="hero-actions">
-
 
           <a
             class="btn btn-primary"
@@ -181,18 +173,14 @@
             <span>→</span>
           </a>
 
-
           <button
             class="btn btn-outline"
             id="heroOrder"
-            type="button"
           >
             PEDIR AHORA
           </button>
 
-
         </div>
-
 
         <div class="hero-notes">
 
@@ -210,17 +198,14 @@
 
         </div>
 
-
       </div>
 
 
-
-      <!-- ==================== PANEL VISUAL DEL HERO ==================== -->
+      <!-- PREVISUALIZACIÓN DEL MENÚ -->
 
       <div class="hero-menu-preview">
 
-
-        <div class="preview-header">
+        <div class="hero-preview-top">
 
           <span>
             LO MÁS PEDIDO
@@ -233,19 +218,16 @@
         </div>
 
 
+        <div class="hero-preview-product">
 
-        <div class="preview-product">
-
-
-          <div class="preview-icon">
+          <span class="preview-icon">
             🌭
-          </div>
+          </span>
 
-
-          <div class="preview-info">
+          <div>
 
             <strong>
-              HOTDOG CLÁSICO
+              Hotdog Clásico
             </strong>
 
             <small>
@@ -254,83 +236,92 @@
 
           </div>
 
-
           <b>
             $1.00
           </b>
 
-
         </div>
 
 
+        <div class="hero-preview-product">
 
-        <div class="preview-product">
-
-
-          <div class="preview-icon">
+          <span class="preview-icon">
             🍽️
-          </div>
+          </span>
 
-
-          <div class="preview-info">
+          <div>
 
             <strong>
-              COMBO #1
+              Combo #1
             </strong>
 
             <small>
-              Hotdog + soda
+              Hotdog + bebida
             </small>
 
           </div>
-
 
           <b>
             $1.50
           </b>
 
-
         </div>
 
 
+        <div class="hero-preview-product">
 
-        <div class="preview-product">
-
-
-          <div class="preview-icon">
+          <span class="preview-icon">
             🍽️
-          </div>
+          </span>
 
-
-          <div class="preview-info">
+          <div>
 
             <strong>
-              COMBO #2
+              Combo #2
             </strong>
 
             <small>
-              Hotdog + papas + soda
+              Hotdog + papas + bebida
             </small>
 
           </div>
-
 
           <b>
             $2.00
           </b>
 
+        </div>
+
+
+        <div class="hero-preview-product">
+
+          <span class="preview-icon">
+            🥤
+          </span>
+
+          <div>
+
+            <strong>
+              Vaso de soda
+            </strong>
+
+            <small>
+              Bebida fría
+            </small>
+
+          </div>
+
+          <b>
+            $0.25
+          </b>
 
         </div>
 
 
-
-        <div class="preview-footer">
+        <div class="hero-preview-footer">
 
           <span>
-            DESDE
-            <strong>
-              $0.50
-            </strong>
+            DESDE $0.25
           </span>
 
           <span>
@@ -339,12 +330,8 @@
 
         </div>
 
-
       </div>
 
-
-
-      <!-- ==================== DECORACIÓN ==================== -->
 
       <div class="hero-decoration hero-circle"></div>
 
@@ -358,17 +345,13 @@
 
       <div class="hero-decoration hero-line"></div>
 
-
     </section>
 
 
 
     <!-- ==================== FAVORITOS ==================== -->
 
-    <section
-      class="section favorites"
-      id="favoritos"
-    >
+    <section class="section favorites">
 
 
       <div class="section-heading">
@@ -431,8 +414,7 @@
 
 
         <p>
-          Encuentra tu hot dog favorito,
-          acompáñalo con unas papas,
+          Encuentra tu hot dog favorito, acompáñalo con unas papas,
           elige tu bebida y disfruta tu pedido.
         </p>
 
@@ -499,8 +481,6 @@
 
 
 
-      <!-- ==================== FILTROS ==================== -->
-
       <div
         class="filters"
         id="filters"
@@ -509,7 +489,6 @@
 
         <button
           class="filter active"
-          type="button"
           data-category="todos"
         >
           Todos
@@ -518,7 +497,6 @@
 
         <button
           class="filter"
-          type="button"
           data-category="hotdogs"
         >
           Hot Dogs
@@ -527,7 +505,6 @@
 
         <button
           class="filter"
-          type="button"
           data-category="combos"
         >
           Combos
@@ -536,7 +513,6 @@
 
         <button
           class="filter"
-          type="button"
           data-category="papas"
         >
           Papas
@@ -545,7 +521,6 @@
 
         <button
           class="filter"
-          type="button"
           data-category="bebidas"
         >
           Bebidas
@@ -555,8 +530,6 @@
       </div>
 
 
-
-      <!-- ==================== PRODUCTOS ==================== -->
 
       <div
         class="product-grid menu-grid"
@@ -636,7 +609,7 @@
           </h3>
 
           <p>
-            Revisa las cantidades y el total de tu pedido.
+            Revisa cantidades y el total de tu pedido.
           </p>
 
         </article>
@@ -658,7 +631,29 @@
           </h3>
 
           <p>
-            Envía tu pedido por WhatsApp y recibe tu número de pedido.
+            Presiona el botón y tu pedido se abrirá en WhatsApp.
+          </p>
+
+        </article>
+
+
+
+        <article class="step-card">
+
+          <b>
+            04
+          </b>
+
+          <div class="step-icon">
+            🎟️
+          </div>
+
+          <h3>
+            RETIRA
+          </h3>
+
+          <p>
+            Guarda tu número de pedido y preséntalo al retirar.
           </p>
 
         </article>
@@ -707,9 +702,9 @@
 
 
         <p>
-          FULL BITE es un emprendimiento escolar creado
-          para ofrecer comida rápida, accesible y deliciosa.
-          Queremos que pedir sea tan fácil como disfrutar.
+          FULL BITE es un emprendimiento escolar creado para ofrecer
+          comida rápida, accesible y deliciosa. Queremos que pedir
+          sea tan fácil como disfrutar.
         </p>
 
 
@@ -773,59 +768,52 @@
     <!-- ==================== OPINIONES ==================== -->
 
     <section
-      class="feedback section"
+      class="section feedback-section"
       id="opiniones"
     >
 
 
-      <div class="feedback-container">
+      <div class="section-heading centered">
 
 
-        <div class="feedback-heading">
+        <p class="eyebrow">
+          QUEREMOS SABER DE TI
+        </p>
 
 
-          <p class="eyebrow">
-            QUEREMOS ESCUCHARTE
-          </p>
+        <h2>
+          DEJA TU
+          <span>
+            OPINIÓN
+          </span>
+        </h2>
 
 
-          <h2>
-            TU OPINIÓN
-            <span>
-              CUENTA.
-            </span>
-          </h2>
+        <p>
+          Cuéntanos cómo fue tu experiencia con FULL BITE.
+        </p>
 
 
-          <p>
-            Cuéntanos qué te pareció tu experiencia
-            con FULL BITE. Tu comentario nos ayuda
-            a seguir mejorando.
-          </p>
-
-
-        </div>
+      </div>
 
 
 
-        <!-- ==================== FORMULARIO ==================== -->
+      <form
+        class="feedback-form"
+        id="feedbackForm"
+      >
 
-        <form
-          class="feedback-form"
-          id="feedbackForm"
-        >
 
+        <div class="rating-box">
 
           <label>
-            ¿Cómo fue tu experiencia?
+            ¿Cómo calificas tu experiencia?
           </label>
-
 
           <div
             class="rating"
             id="rating"
           >
-
 
             <button
               type="button"
@@ -835,7 +823,6 @@
               ★
             </button>
 
-
             <button
               type="button"
               data-rating="2"
@@ -843,7 +830,6 @@
             >
               ★
             </button>
-
 
             <button
               type="button"
@@ -853,7 +839,6 @@
               ★
             </button>
 
-
             <button
               type="button"
               data-rating="4"
@@ -861,7 +846,6 @@
             >
               ★
             </button>
-
 
             <button
               type="button"
@@ -871,50 +855,55 @@
               ★
             </button>
 
-
           </div>
 
+        </div>
 
+
+
+        <div class="feedback-field">
+
+          <label for="feedbackName">
+            Nombre
+            <span>(opcional)</span>
+          </label>
 
           <input
             type="text"
             id="feedbackName"
-            name="name"
-            placeholder="Tu nombre (opcional)"
-            maxlength="40"
+            placeholder="Tu nombre"
           >
 
+        </div>
+
+
+
+        <div class="feedback-field">
+
+          <label for="feedbackComment">
+            Comentario
+          </label>
 
           <textarea
             id="feedbackComment"
-            name="comment"
-            placeholder="Escribe aquí tu comentario..."
             rows="5"
-            maxlength="300"
+            placeholder="Cuéntanos qué te pareció..."
             required
           ></textarea>
 
-
-          <button
-            type="submit"
-            class="btn btn-primary feedback-submit"
-          >
-            ENVIAR COMENTARIO
-            <span>
-              →
-            </span>
-          </button>
+        </div>
 
 
-          <small class="feedback-note">
-            Tu comentario se enviará por WhatsApp a FULL BITE.
-          </small>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          ENVIAR OPINIÓN →
+        </button>
 
 
-        </form>
-
-
-      </div>
+      </form>
 
 
     </section>
@@ -946,7 +935,6 @@
 
     <div class="footer-links">
 
-
       <a href="#menu">
         Menú
       </a>
@@ -960,7 +948,6 @@
       <a href="#opiniones">
         Opiniones
       </a>
-
 
     </div>
 
@@ -1007,7 +994,6 @@
 
       <button
         id="closeCart"
-        type="button"
         aria-label="Cerrar carrito"
       >
         ×
@@ -1018,8 +1004,6 @@
 
 
 
-    <!-- PRODUCTOS DEL CARRITO -->
-
     <div
       class="cart-items"
       id="cartItems"
@@ -1027,43 +1011,33 @@
 
 
 
-    <!-- CARRITO VACÍO -->
-
     <div
       class="cart-empty"
       id="cartEmpty"
     >
 
-
       <span>
         🌭
       </span>
-
 
       <h3>
         Tu carrito está vacío
       </h3>
 
-
       <p>
         Agrega algo delicioso para comenzar.
       </p>
 
-
       <button
         class="btn btn-primary"
         id="goMenu"
-        type="button"
       >
         VER MENÚ
       </button>
 
-
     </div>
 
 
-
-    <!-- ==================== TOTAL ==================== -->
 
     <div class="cart-footer">
 
@@ -1081,38 +1055,19 @@
       </div>
 
 
-
-      <!-- ==================== INFORMACIÓN PEDIDO ==================== -->
-
-      <div
-        class="order-info"
-        id="orderInfo"
-      >
-
-        Al enviar tu pedido recibirás un
-        <strong>
-          número de pedido
-        </strong>
-        para retirarlo.
-
-      </div>
-
-
-
-      <!-- ==================== WHATSAPP ==================== -->
-
       <button
         class="whatsapp-btn"
         id="sendWhatsApp"
-        type="button"
       >
         📲 ENVIAR PEDIDO POR WHATSAPP
       </button>
 
 
+      <div id="orderInfo"></div>
+
+
       <small>
-        Tu número de pedido aparecerá después
-        de enviarlo por WhatsApp.
+        El pedido se enviará directamente por WhatsApp.
       </small>
 
 
@@ -1123,7 +1078,7 @@
 
 
 
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- JavaScript -->
 
   <script src="script.js"></script>
 
