@@ -1384,3 +1384,318 @@ footer small {
     width: 100%;
   }
 }
+/* =========================================================
+   FULL BITE — CORRECCIÓN FINAL DE OPINIONES
+   ========================================================= */
+
+.opinions {
+  width: min(1180px, calc(100% - 40px)) !important;
+  margin: 0 auto !important;
+  padding: 100px 0 !important;
+  position: relative !important;
+}
+
+/* ENCABEZADO */
+
+.opinion-intro {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 330px !important;
+  align-items: center !important;
+  gap: 55px !important;
+  margin-bottom: 45px !important;
+}
+
+.opinion-intro > div:first-child {
+  min-width: 0 !important;
+}
+
+.opinion-intro h2 {
+  margin: 0 !important;
+  max-width: 700px !important;
+}
+
+.opinion-description {
+  max-width: 650px !important;
+  margin: 20px 0 0 !important;
+  color: #666 !important;
+  line-height: 1.6 !important;
+  font-size: 1rem !important;
+}
+
+/* TARJETA NARANJA */
+
+.opinion-highlight {
+  width: 330px !important;
+  height: 220px !important;
+  min-height: 220px !important;
+  padding: 28px !important;
+  border-radius: 28px !important;
+  background: #ff4b16 !important;
+  color: #fff !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transform: rotate(2deg) !important;
+  box-shadow: 0 18px 35px rgba(255, 75, 22, 0.20) !important;
+}
+
+.opinion-highlight::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 180px !important;
+  height: 180px !important;
+  right: -75px !important;
+  bottom: -80px !important;
+  border-radius: 50% !important;
+  border: 25px solid rgba(255,255,255,0.15) !important;
+}
+
+.opinion-quote {
+  font-family: Georgia, serif !important;
+  font-size: 4.5rem !important;
+  line-height: 0.4 !important;
+  color: #fff !important;
+  opacity: 0.8 !important;
+}
+
+.opinion-highlight strong {
+  position: relative !important;
+  z-index: 2 !important;
+  font-family: "Anton", sans-serif !important;
+  font-size: 2rem !important;
+  line-height: 0.95 !important;
+  font-weight: 400 !important;
+  color: #fff !important;
+}
+
+.opinion-mini-stars {
+  position: relative !important;
+  z-index: 3 !important;
+  color: #ffc928 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.15em !important;
+}
+
+/* CAJA DEL FORMULARIO */
+
+.opinion-box {
+  width: 100% !important;
+  background: #151515 !important;
+  color: #fff !important;
+  border-radius: 30px !important;
+  padding: 38px !important;
+  box-shadow: 0 18px 45px rgba(21,21,21,0.13) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.opinion-box::before {
+  content: "" !important;
+  position: absolute !important;
+  width: 350px !important;
+  height: 350px !important;
+  right: -160px !important;
+  bottom: -180px !important;
+  border-radius: 50% !important;
+  background: #ff4b16 !important;
+  opacity: 0.08 !important;
+}
+
+/* CABECERA DEL FORMULARIO */
+
+.opinion-box-head {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 30px !important;
+}
+
+.opinion-box-head > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+}
+
+.opinion-number {
+  color: #ffc928 !important;
+  font-family: "Anton", sans-serif !important;
+  font-size: 1.7rem !important;
+}
+
+.opinion-box-head h3 {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 1.2rem !important;
+}
+
+.opinion-icon {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  background: #ff4b16 !important;
+  color: #fff !important;
+}
+
+/* CAMPOS */
+
+.opinion-form {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.opinion-fields {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important;
+}
+
+.opinion-form .form-group {
+  margin-bottom: 20px !important;
+}
+
+.opinion-form .form-group label {
+  color: rgba(255,255,255,0.7) !important;
+  font-size: 0.72rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.opinion-form input,
+.opinion-form select,
+.opinion-form textarea {
+  width: 100% !important;
+  background: #242424 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 14px !important;
+  padding: 14px 15px !important;
+  outline: none !important;
+}
+
+.opinion-form input::placeholder,
+.opinion-form textarea::placeholder {
+  color: rgba(255,255,255,0.38) !important;
+}
+
+.opinion-form input:focus,
+.opinion-form select:focus,
+.opinion-form textarea:focus {
+  border-color: #ff4b16 !important;
+}
+
+.opinion-form select option {
+  background: #fff !important;
+  color: #151515 !important;
+}
+
+.opinion-form textarea {
+  min-height: 120px !important;
+  resize: vertical !important;
+}
+
+/* BOTÓN */
+
+.opinion-form-bottom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+}
+
+.opinion-message {
+  color: #ffc928 !important;
+  min-height: 20px !important;
+}
+
+.opinion-submit {
+  flex-shrink: 0 !important;
+}
+
+/* OPINIÓN GUARDADA */
+
+.saved-opinion {
+  position: relative !important;
+  z-index: 3 !important;
+  margin-top: 25px !important;
+}
+
+.saved-opinion-card {
+  background: #242424 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 18px !important;
+  padding: 20px !important;
+}
+
+.saved-opinion-card strong {
+  color: #fff !important;
+}
+
+.saved-opinion-card p {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.saved-opinion-stars {
+  color: #ffc928 !important;
+}
+
+/* =========================================================
+   OPINIONES — CELULAR
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+  .opinion-intro {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .opinion-highlight {
+    width: 100% !important;
+    max-width: 330px !important;
+  }
+}
+
+@media (max-width: 720px) {
+
+  .opinions {
+    width: calc(100% - 30px) !important;
+    padding: 75px 0 !important;
+  }
+
+  .opinion-intro {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 30px !important;
+  }
+
+  .opinion-highlight {
+    width: 100% !important;
+    max-width: none !important;
+    transform: none !important;
+  }
+
+  .opinion-box {
+    padding: 25px 20px !important;
+  }
+
+  .opinion-fields {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .opinion-form-bottom {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .opinion-submit {
+    width: 100% !important;
+  }
+}
