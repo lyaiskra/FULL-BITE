@@ -1,9 +1,15 @@
+/* =====================================================
+   FULL BITE
+   HAZLE CASO AL ANTOJO
+===================================================== */
+
+
+/* ==================== WHATSAPP ==================== */
+
 const WHATSAPP_NUMBER = "50769275725";
 
 
-/* =========================================================
-   PRODUCTOS
-   ========================================================= */
+/* ==================== PRODUCTOS ==================== */
 
 const products = [
 
@@ -76,32 +82,29 @@ const products = [
 ];
 
 
-/* =========================================================
-   CARRITO
-   ========================================================= */
+/* ==================== CARRITO ==================== */
 
 let cart = JSON.parse(
   localStorage.getItem("fullBiteCart") || "[]"
 );
 
+
 let selectedCategory = "todos";
 
 
-/* =========================================================
-   FUNCIONES BÁSICAS
-   ========================================================= */
+/* ==================== FUNCIONES GENERALES ==================== */
 
-const $ = id => document.getElementById(id);
-
-const money = number =>
-  `$${number.toFixed(2)}`;
+const $ = id =>
+  document.getElementById(id);
 
 
-/* =========================================================
-   GUARDAR CARRITO
-   ========================================================= */
+const money = n =>
+  `$${Number(n).toFixed(2)}`;
 
-function saveCart() {
+
+/* ==================== GUARDAR CARRITO ==================== */
+
+function saveCart(){
 
   localStorage.setItem(
     "fullBiteCart",
@@ -111,29 +114,33 @@ function saveCart() {
 }
 
 
-/* =========================================================
-   AGREGAR PRODUCTO
-   ========================================================= */
+/* ==================== AGREGAR AL CARRITO ==================== */
 
-function addToCart(productId, qty = 1) {
+function addToCart(
+  productId,
+  qty = 1
+){
 
-  const product = products.find(
-    item => item.id === productId
-  );
-
-  if (!product) return;
-
-
-  const existing = cart.find(
-    item => item.id === productId
-  );
+  const product =
+    products.find(
+      x => x.id === productId
+    );
 
 
-  if (existing) {
+  if(!product) return;
+
+
+  const existing =
+    cart.find(
+      x => x.id === productId
+    );
+
+
+  if(existing){
 
     existing.qty += qty;
 
-  } else {
+  }else{
 
     cart.push({
       id: product.id,
@@ -144,69 +151,72 @@ function addToCart(productId, qty = 1) {
 
 
   saveCart();
+
   renderCart();
+
   openCart();
 
 }
 
 
-/* =========================================================
-   QUITAR UNA UNIDAD
-   ========================================================= */
+/* ==================== RESTAR PRODUCTO ==================== */
 
-function removeOne(id) {
+function removeOne(id){
 
-  const item = cart.find(
-    product => product.id === id
-  );
+  const item =
+    cart.find(
+      x => x.id === id
+    );
 
-  if (!item) return;
+
+  if(!item) return;
 
 
   item.qty--;
 
 
-  if (item.qty <= 0) {
+  if(item.qty <= 0){
 
-    cart = cart.filter(
-      product => product.id !== id
-    );
+    cart =
+      cart.filter(
+        x => x.id !== id
+      );
 
   }
 
 
   saveCart();
+
   renderCart();
 
 }
 
 
-/* =========================================================
-   AÑADIR UNA UNIDAD
-   ========================================================= */
+/* ==================== SUMAR PRODUCTO ==================== */
 
-function addOne(id) {
+function addOne(id){
 
   addToCart(id);
 
 }
 
 
-/* =========================================================
-   TOTAL DEL CARRITO
-   ========================================================= */
+/* ==================== TOTAL ==================== */
 
-function cartTotal() {
+function cartTotal(){
 
   return cart.reduce(
-    (total, item) => {
+    (sum, item) => {
 
-      const product = products.find(
-        product => product.id === item.id
-      );
+      const product =
+        products.find(
+          x => x.id === item.id
+        );
 
-      return total +
-        (product
+
+      return sum +
+        (
+          product
           ? product.price * item.qty
           : 0
         );
@@ -218,255 +228,22 @@ function cartTotal() {
 }
 
 
-/* =========================================================
-   CANTIDAD TOTAL
-   ========================================================= */
+/* ==================== CANTIDAD DEL CARRITO ==================== */
 
-function cartCount() {
+function cartCount(){
 
   return cart.reduce(
-    (total, item) => total + item.qty,
+    (sum, item) =>
+      sum + item.qty,
     0
   );
 
 }
 
 
-/* =========================================================
-   TARJETA DE PRODUCTO
-   ========================================================= */
+/* ==================== NÚMERO DE PEDIDO ==================== */
 
-function productCard(product) {
-
-  return `
-
-    <article class="product-card">
-
-      ${
-        product.badge
-          ? `<span class="badge">${product.badge}</span>`
-          : ""
-      }
-
-      <div class="product-icon">
-        ${product.emoji}
-      </div>
-
-
-      <div class="product-info">
-
-        <h3>
-          ${product.name}
-        </h3>
-
-
-        <p>
-          ${product.desc}
-        </p>
-
-
-        <div class="product-bottom">
-
-          <span class="product-price">
-            ${money(product.price)}
-          </span>
-
-
-          <button
-            class="add-btn"
-            onclick="addToCart('${product.id}')"
-            aria-label="Agregar ${product.name}"
-          >
-            +
-          </button>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
-
-}
-
-
-/* =========================================================
-   MOSTRAR PRODUCTOS
-   ========================================================= */
-
-function renderProducts() {
-
-  const featured =
-    products
-      .filter(product => product.featured)
-      .slice(0, 3);
-
-
-  $("featuredProducts").innerHTML =
-    featured
-      .map(productCard)
-      .join("");
-
-
-  const menuProducts =
-    selectedCategory === "todos"
-      ? products
-      : products.filter(
-          product =>
-            product.category === selectedCategory
-        );
-
-
-  $("menuProducts").innerHTML =
-    menuProducts
-      .map(productCard)
-      .join("");
-
-}
-
-
-/* =========================================================
-   MOSTRAR CARRITO
-   ========================================================= */
-
-function renderCart() {
-
-  $("cartCount").textContent =
-    cartCount();
-
-
-  $("cartTotal").textContent =
-    money(cartTotal());
-
-
-  $("cartItems").innerHTML =
-    cart.map(item => {
-
-      const product =
-        products.find(
-          product => product.id === item.id
-        );
-
-
-      if (!product) return "";
-
-
-      return `
-
-        <div class="cart-item">
-
-
-          <div class="cart-item-icon">
-            ${product.emoji}
-          </div>
-
-
-          <div class="cart-item-info">
-
-            <h4>
-              ${product.name}
-            </h4>
-
-
-            <small>
-              ${money(product.price)}
-            </small>
-
-
-            <div class="cart-item-controls">
-
-              <button
-                onclick="removeOne('${product.id}')"
-                aria-label="Disminuir cantidad"
-              >
-                −
-              </button>
-
-
-              <span>
-                ${item.qty}
-              </span>
-
-
-              <button
-                onclick="addOne('${product.id}')"
-                aria-label="Aumentar cantidad"
-              >
-                +
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="cart-item-price">
-            ${money(product.price * item.qty)}
-          </div>
-
-
-        </div>
-
-      `;
-
-    }).join("");
-
-
-  const empty =
-    cart.length === 0;
-
-
-  $("cartEmpty").style.display =
-    empty ? "flex" : "none";
-
-
-  $("cartItems").style.display =
-    empty ? "none" : "block";
-
-
-  $("sendWhatsApp").disabled =
-    empty;
-
-
-  $("sendWhatsApp").style.opacity =
-    empty ? "0.5" : "1";
-
-}
-
-
-/* =========================================================
-   ABRIR CARRITO
-   ========================================================= */
-
-function openCart() {
-
-  $("cart").classList.add("active");
-
-  $("cartOverlay").classList.add("active");
-
-}
-
-
-/* =========================================================
-   CERRAR CARRITO
-   ========================================================= */
-
-function closeCart() {
-
-  $("cart").classList.remove("active");
-
-  $("cartOverlay").classList.remove("active");
-
-}
-
-
-/* =========================================================
-   NÚMERO DE PEDIDO
-   FB-01 → FB-99
-   ========================================================= */
-
-function generateOrderNumber() {
+function generateOrderNumber(){
 
   let lastOrder =
     Number(
@@ -476,11 +253,11 @@ function generateOrderNumber() {
     );
 
 
-  if (lastOrder >= 99) {
+  if(lastOrder >= 99){
 
     lastOrder = 1;
 
-  } else {
+  }else{
 
     lastOrder++;
 
@@ -498,13 +275,266 @@ function generateOrderNumber() {
 }
 
 
-/* =========================================================
-   ENVIAR PEDIDO POR WHATSAPP
-   ========================================================= */
+/* ==================== TARJETAS DE PRODUCTOS ==================== */
 
-function sendWhatsApp() {
+function productCard(p){
 
-  if (!cart.length) return;
+  return `
+
+    <article class="product-card">
+
+      ${
+        p.badge
+        ? `<span class="badge">${p.badge}</span>`
+        : ""
+      }
+
+
+      <div class="product-visual">
+
+        ${p.emoji}
+
+      </div>
+
+
+      <div class="product-info">
+
+        <h3>
+          ${p.name}
+        </h3>
+
+
+        <p>
+          ${p.desc}
+        </p>
+
+
+        <div class="product-bottom">
+
+          <span class="price">
+            ${money(p.price)}
+          </span>
+
+
+          <button
+            class="add-btn"
+            onclick="addToCart('${p.id}')"
+          >
+            + AGREGAR
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* ==================== MOSTRAR PRODUCTOS ==================== */
+
+function renderProducts(){
+
+  const featured =
+    products
+      .filter(
+        p => p.featured
+      )
+      .slice(0, 3);
+
+
+  $("featuredProducts").innerHTML =
+    featured
+      .map(productCard)
+      .join("");
+
+
+  const list =
+    selectedCategory === "todos"
+    ? products
+    : products.filter(
+        p =>
+          p.category === selectedCategory
+      );
+
+
+  $("menuProducts").innerHTML =
+    list
+      .map(productCard)
+      .join("");
+
+}
+
+
+/* ==================== MOSTRAR CARRITO ==================== */
+
+function renderCart(){
+
+  $("cartCount").textContent =
+    cartCount();
+
+
+  $("cartTotal").textContent =
+    money(cartTotal());
+
+
+  $("cartItems").innerHTML =
+    cart.map(item => {
+
+      const product =
+        products.find(
+          x => x.id === item.id
+        );
+
+
+      if(!product) return "";
+
+
+      return `
+
+        <div class="cart-item">
+
+
+          <div class="cart-item-icon">
+
+            ${product.emoji}
+
+          </div>
+
+
+          <div>
+
+            <h4>
+              ${product.name}
+            </h4>
+
+
+            <p>
+              ${money(
+                product.price * item.qty
+              )}
+            </p>
+
+
+            <div class="qty">
+
+
+              <button
+                onclick="removeOne('${product.id}')"
+              >
+                −
+              </button>
+
+
+              <b>
+                ${item.qty}
+              </b>
+
+
+              <button
+                onclick="addOne('${product.id}')"
+              >
+                +
+              </button>
+
+
+            </div>
+
+          </div>
+
+
+          <button
+            aria-label="Eliminar"
+            onclick="
+              cart = cart.filter(
+                x => x.id !== '${product.id}'
+              );
+
+              saveCart();
+
+              renderCart();
+            "
+          >
+            ✕
+          </button>
+
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  const empty =
+    cart.length === 0;
+
+
+  $("cartEmpty").style.display =
+    empty
+    ? "block"
+    : "none";
+
+
+  $("cartItems").style.display =
+    empty
+    ? "none"
+    : "block";
+
+
+  $("sendWhatsApp").disabled =
+    empty;
+
+
+  $("sendWhatsApp").style.opacity =
+    empty
+    ? ".5"
+    : "1";
+
+}
+
+
+/* ==================== ABRIR CARRITO ==================== */
+
+function openCart(){
+
+  $("cart")
+    .classList
+    .add("open");
+
+
+  $("cartOverlay")
+    .classList
+    .add("open");
+
+}
+
+
+/* ==================== CERRAR CARRITO ==================== */
+
+function closeCart(){
+
+  $("cart")
+    .classList
+    .remove("open");
+
+
+  $("cartOverlay")
+    .classList
+    .remove("open");
+
+}
+
+
+/* ==================== WHATSAPP ==================== */
+
+function sendWhatsApp(){
+
+  if(!cart.length)
+    return;
 
 
   const orderNumber =
@@ -516,72 +546,64 @@ function sendWhatsApp() {
 
       const product =
         products.find(
-          product => product.id === item.id
+          x => x.id === item.id
         );
 
 
-      return `• ${item.qty}x ${product.name} — ${money(product.price * item.qty)}`;
+      return `• ${item.qty}x ${product.name} — ${money(
+        product.price * item.qty
+      )}`;
 
     });
 
 
-  const total =
-    money(cartTotal());
-
-
   const message =
-`Hola, quiero realizar un pedido en FULL BITE.
+    `Hola, quiero realizar un pedido en FULL BITE.%0A%0A` +
 
-*Pedido: ${orderNumber}*
+    `*Número de pedido:* ${orderNumber}%0A%0A` +
 
-${lines.join("\n")}
+    `*Pedido:*%0A` +
 
-*Total: ${total}*
+    `${lines.join("%0A")}%0A%0A` +
 
-¿Me confirman el pedido?`;
+    `*Total: ${money(cartTotal())}*%0A%0A` +
 
-
-  const encodedMessage =
-    encodeURIComponent(message);
+    `¿Me confirman el pedido?`;
 
 
   window.open(
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`,
     "_blank"
   );
-
-
-  $("orderInfo").innerHTML =
-    `Número de pedido: <strong>${orderNumber}</strong>`;
 
 }
 
 
-/* =========================================================
-   FILTROS DEL MENÚ
-   ========================================================= */
+/* ==================== FILTROS ==================== */
 
 document
   .querySelectorAll(".filter")
-  .forEach(button => {
+  .forEach(btn => {
 
-    button.addEventListener(
+    btn.addEventListener(
       "click",
       () => {
+
 
         document
           .querySelectorAll(".filter")
           .forEach(
-            item =>
-              item.classList.remove("active")
+            x =>
+              x.classList
+                .remove("active")
           );
 
 
-        button.classList.add("active");
+        btn.classList.add("active");
 
 
         selectedCategory =
-          button.dataset.category;
+          btn.dataset.category;
 
 
         renderProducts();
@@ -592,9 +614,7 @@ document
   });
 
 
-/* =========================================================
-   EVENTOS DEL CARRITO
-   ========================================================= */
+/* ==================== CARRITO ==================== */
 
 $("openCart")
   .addEventListener(
@@ -624,9 +644,11 @@ $("goMenu")
 
       closeCart();
 
-      $("menu").scrollIntoView({
-        behavior: "smooth"
-      });
+
+      $("menu")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
 
     }
   );
@@ -639,33 +661,32 @@ $("sendWhatsApp")
   );
 
 
-/* =========================================================
-   BOTÓN PEDIR AHORA
-   ========================================================= */
+/* ==================== BOTÓN PEDIR AHORA ==================== */
 
 $("heroOrder")
   .addEventListener(
     "click",
     () => {
 
-      $("menu").scrollIntoView({
-        behavior: "smooth"
-      });
+      $("menu")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
 
     }
   );
 
 
-/* =========================================================
-   MENÚ MÓVIL
-   ========================================================= */
+/* ==================== MENÚ MÓVIL ==================== */
 
 $("menuToggle")
   .addEventListener(
     "click",
     () => {
 
-      $("nav").classList.toggle("active");
+      $("nav")
+        .classList
+        .toggle("open");
 
     }
   );
@@ -673,13 +694,15 @@ $("menuToggle")
 
 document
   .querySelectorAll(".nav a")
-  .forEach(link => {
+  .forEach(a => {
 
-    link.addEventListener(
+    a.addEventListener(
       "click",
       () => {
 
-        $("nav").classList.remove("active");
+        $("nav")
+          .classList
+          .remove("open");
 
       }
     );
@@ -687,9 +710,7 @@ document
   });
 
 
-/* =========================================================
-   INICIALIZAR
-   ========================================================= */
+/* ==================== INICIAR ==================== */
 
 renderProducts();
 
