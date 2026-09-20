@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>FULL BITE | Hazle caso al antojo</title>
+  <meta
+    name="description"
+    content="FULL BITE — comida rápida, accesible y hecha para el antojo."
+  >
 
   <link rel="icon" type="image/png" href="logooooo.png">
   <link rel="stylesheet" href="styles.css">
@@ -16,17 +20,10 @@
        HEADER
   ========================== -->
   <header class="topbar">
-    <div class="container topbar-inner">
+    <div class="topbar-inner">
 
       <a href="#inicio" class="brand">
-        <div class="brand-logo">
-          <img src="logooooo.png" alt="Logo FULL BITE">
-        </div>
-
-        <div class="brand-text">
-          <strong>FULL BITE</strong>
-          <span>HAZLE CASO AL ANTOJO</span>
-        </div>
+        <img src="logooooo.png" alt="FULL BITE">
       </a>
 
       <nav class="nav" id="nav">
@@ -38,10 +35,16 @@
       </nav>
 
       <div class="header-actions">
-        <button class="cart-button" id="openCart" type="button">
-          <span>🛒</span>
+
+        <button
+          class="cart-button"
+          id="openCart"
+          type="button"
+          aria-label="Abrir carrito"
+        >
+          <span class="cart-icon">🛒</span>
           <span>Pedido</span>
-          <b id="cartCount">0</b>
+          <span class="cart-count" id="cartCount">0</span>
         </button>
 
         <button
@@ -49,11 +52,11 @@
           id="menuToggle"
           type="button"
           aria-label="Abrir menú"
+          aria-expanded="false"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          ☰
         </button>
+
       </div>
 
     </div>
@@ -67,89 +70,84 @@
     ========================== -->
     <section class="hero" id="inicio">
 
-      <div class="hero-decoration hero-circle"></div>
-      <div class="hero-decoration hero-star star-one">✦</div>
-      <div class="hero-decoration hero-star star-two">✦</div>
-      <div class="hero-decoration hero-line"></div>
+      <div class="hero-copy">
 
-      <div class="container hero-inner">
+        <p class="eyebrow">
+          HAZLE CASO AL ANTOJO
+        </p>
 
-        <div class="hero-copy">
+        <h1>
+          ¿TIENES<br>
+          <span>HAMBRE?</span>
+        </h1>
 
-          <p class="eyebrow">
-            HAZLE CASO AL ANTOJO
-          </p>
+        <p class="hero-text">
+          Tu antojo está a un pedido de distancia.
+          Elige tus favoritos y disfruta de FULL BITE.
+        </p>
 
-          <h1>
-            ¿TIENES<br>
-            <span>HAMBRE?</span>
-          </h1>
+        <div class="hero-actions">
 
-          <p class="hero-text">
-            Tu antojo está a un pedido de distancia.
-            Elige tus favoritos y disfruta de FULL BITE.
-          </p>
+          <a class="btn btn-primary" href="#menu">
+            VER MENÚ
+            <span>→</span>
+          </a>
 
-          <div class="hero-actions">
-
-            <a href="#menu" class="btn btn-primary">
-              VER MENÚ
-              <span>→</span>
-            </a>
-
-            <button
-              class="btn btn-outline"
-              id="heroOrder"
-              type="button"
-            >
-              PEDIR AHORA
-            </button>
-
-          </div>
-
-          <div class="hero-notes">
-            <span>🔥 Recién preparados</span>
-            <span>⚡ Pedido rápido</span>
-            <span>💸 Precios estudiantiles</span>
-          </div>
+          <button
+            class="btn btn-outline"
+            id="heroOrder"
+            type="button"
+          >
+            PEDIR AHORA
+          </button>
 
         </div>
 
+        <div class="hero-notes">
+          <span>🔥 Recién preparados</span>
+          <span>⚡ Pedido rápido</span>
+          <span>💸 Precios estudiantiles</span>
+        </div>
+
       </div>
+
+      <div class="hero-decoration hero-circle"></div>
+
+      <div class="hero-decoration hero-star star-one">✦</div>
+      <div class="hero-decoration hero-star star-two">✦</div>
+
+      <div class="hero-decoration hero-line"></div>
+
     </section>
 
 
     <!-- =========================
          DESTACADOS
     ========================== -->
-    <section class="featured section" id="destacados">
+    <section class="featured section" id="featured">
 
-      <div class="container">
+      <div class="section-heading featured-heading">
 
-        <div class="section-heading">
-
-          <div>
-            <p class="eyebrow">LO MÁS PEDIDO</p>
-
-            <h2>
-              FAVORITOS DE
-              <span>FULL BITE</span>
-            </h2>
-          </div>
-
-          <p>
-            Los favoritos para cuando el antojo
-            aparece sin avisar.
+        <div>
+          <p class="eyebrow">
+            LO MÁS PEDIDO
           </p>
 
+          <h2>
+            FAVORITOS DE <span>FULL BITE</span>
+          </h2>
         </div>
 
-        <div
-          class="featured-grid"
-          id="featuredProducts"
-        ></div>
+        <a href="#menu" class="text-link">
+          Ver todo →
+        </a>
 
       </div>
+
+      <div
+        class="featured-grid"
+        id="featuredProducts"
+      ></div>
 
     </section>
 
@@ -159,40 +157,34 @@
     ========================== -->
     <section class="promo section">
 
-      <div class="container">
+      <div class="promo-inner">
 
-        <div class="promo-box">
+        <div class="promo-mark">
+          ✦
+        </div>
 
-          <div class="promo-content">
+        <div class="promo-copy">
 
-            <p class="eyebrow">
-              HAZLE CASO AL ANTOJO
-            </p>
+          <p class="eyebrow">
+            HAZLE CASO AL ANTOJO
+          </p>
 
-            <h2>
-              ALGO RICO.
-              <span>SIN COMPLICARTE.</span>
-            </h2>
+          <h2>
+            EL ANTOJO<br>
+            <span>LLAMA.</span>
+          </h2>
 
-            <p>
-              Encuentra tu hot dog favorito, acompáñalo
-              con unas papas, elige tu bebida y disfruta
-              tu pedido.
-            </p>
-
-            <a href="#menu" class="btn btn-primary">
-              VER MENÚ
-              <span>→</span>
-            </a>
-
-          </div>
-
-          <div class="promo-mark">
-            <span>FULL</span>
-            <strong>BITE</strong>
-          </div>
+          <p>
+            Encuentra tu hot dog favorito, acompáñalo con unas papas,
+            elige tu bebida y disfruta tu pedido.
+          </p>
 
         </div>
+
+        <a href="#menu" class="btn btn-primary">
+          VER MENÚ
+          <span>→</span>
+        </a>
 
       </div>
 
@@ -202,82 +194,79 @@
     <!-- =========================
          MENÚ
     ========================== -->
-    <section class="menu section" id="menu">
+    <section class="menu-section section" id="menu">
 
-      <div class="container">
+      <div class="section-heading">
 
-        <div class="section-heading">
+        <div>
 
-          <div>
-            <p class="eyebrow">ELIGE TU ANTOJO</p>
+          <p class="eyebrow">
+            ELIGE TU FAVORITO
+          </p>
 
-            <h2>
-              NUESTRO
-              <span>MENÚ</span>
-            </h2>
-          </div>
+          <h2>
+            NUESTRO <span>MENÚ</span>
+          </h2>
 
-          <p>
-            Precios pensados para estudiantes
-            y para cualquier momento del día.
+          <p class="section-description">
+            Agrega lo que quieras al pedido.
+            El total se calcula automáticamente.
           </p>
 
         </div>
 
-
-        <!-- Filtros -->
-        <div class="menu-filters">
-
-          <button
-            class="filter-btn active"
-            data-filter="all"
-            type="button"
-          >
-            Todos
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="hotdogs"
-            type="button"
-          >
-            Hot Dogs
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="combos"
-            type="button"
-          >
-            Combos
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="papas"
-            type="button"
-          >
-            Papas
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="bebidas"
-            type="button"
-          >
-            Bebidas
-          </button>
-
-        </div>
+      </div>
 
 
-        <!-- Productos -->
-        <div
-          class="menu-products"
-          id="menuProducts"
-        ></div>
+      <div class="filters" id="filters">
+
+        <button
+          class="filter-btn active"
+          type="button"
+          data-filter="all"
+        >
+          Todos
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="hotdogs"
+        >
+          Hot Dogs
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="combos"
+        >
+          Combos
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="papas"
+        >
+          Papas
+        </button>
+
+        <button
+          class="filter-btn"
+          type="button"
+          data-filter="bebidas"
+        >
+          Bebidas
+        </button>
 
       </div>
+
+
+      <div
+        class="products-grid"
+        id="menuProducts"
+      ></div>
 
     </section>
 
@@ -285,93 +274,192 @@
     <!-- =========================
          CÓMO PEDIR
     ========================== -->
-    <section class="how section" id="como-pedir">
+    <section
+      class="how-section section"
+      id="como-pedir"
+    >
 
-      <div class="container">
+      <div class="section-heading">
 
-        <div class="section-heading">
+        <div>
 
-          <div>
-            <p class="eyebrow">FÁCIL Y RÁPIDO</p>
+          <p class="eyebrow">
+            SIMPLE Y RÁPIDO
+          </p>
 
-            <h2>
-              ¿CÓMO
-              <span>PEDIR?</span>
-            </h2>
+          <h2>
+            ¿CÓMO <span>PEDIR?</span>
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="steps-grid">
+
+        <!-- PASO 01 -->
+        <article class="step-card">
+
+          <div class="step-top">
+            <span class="step-number">01</span>
+            <span class="step-icon">🌭</span>
           </div>
 
+          <h3>
+            ELIGE
+          </h3>
+
           <p>
-            Haz tu pedido en pocos pasos y prepárate
-            para disfrutar.
+            Escoge tus productos favoritos del menú.
           </p>
+
+        </article>
+
+
+        <!-- PASO 02 -->
+        <article class="step-card">
+
+          <div class="step-top">
+            <span class="step-number">02</span>
+            <span class="step-icon">🛒</span>
+          </div>
+
+          <h3>
+            CONFIRMA
+          </h3>
+
+          <p>
+            Revisa las cantidades y el total de tu pedido.
+          </p>
+
+        </article>
+
+
+        <!-- PASO 03 -->
+        <article class="step-card">
+
+          <div class="step-top">
+            <span class="step-number">03</span>
+            <span class="step-icon">📲</span>
+          </div>
+
+          <h3>
+            ENVÍA
+          </h3>
+
+          <p>
+            Presiona el botón y tu pedido se abrirá en WhatsApp.
+          </p>
+
+        </article>
+
+
+        <!-- PASO 04 -->
+        <article class="step-card">
+
+          <div class="step-top">
+            <span class="step-number">04</span>
+            <span class="step-icon">🎟️</span>
+          </div>
+
+          <h3>
+            RETIRA
+          </h3>
+
+          <p>
+            Guarda tu número de pedido y preséntalo al retirar.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         NOSOTROS
+    ========================== -->
+    <section
+      class="about section"
+      id="nosotros"
+    >
+
+      <div class="about-grid">
+
+        <div class="about-visual">
+
+          <div class="about-image-wrap">
+
+            <img
+              src="logooooo.png"
+              alt="FULL BITE"
+            >
+
+          </div>
 
         </div>
 
 
-        <div class="steps-grid">
+        <div class="about-copy">
 
-          <article class="step-card">
+          <p class="eyebrow">
+            NUESTRO NEGOCIO
+          </p>
 
-            <span class="step-number">01</span>
+          <h2>
+            HECHO PARA<br>
+            <span>EL ANTOJO.</span>
+          </h2>
 
-            <div class="step-icon">🍴</div>
-
-            <h3>ELIGE</h3>
-
-            <p>
-              Escoge tus productos favoritos
-              del menú.
-            </p>
-
-          </article>
-
-
-          <article class="step-card">
-
-            <span class="step-number">02</span>
-
-            <div class="step-icon">🛒</div>
-
-            <h3>CONFIRMA</h3>
-
-            <p>
-              Revisa las cantidades y el total
-              de tu pedido.
-            </p>
-
-          </article>
+          <p class="about-text">
+            FULL BITE es un emprendimiento escolar creado para ofrecer
+            comida rápida, accesible y deliciosa. Queremos que pedir
+            sea tan fácil como disfrutar.
+          </p>
 
 
-          <article class="step-card">
+          <div class="about-info">
 
-            <span class="step-number">03</span>
+            <div class="about-info-item">
 
-            <div class="step-icon">📲</div>
+              <span class="about-info-icon">
+                📍
+              </span>
 
-            <h3>ENVÍA</h3>
+              <div>
+                <strong>
+                  Punto de venta
+                </strong>
 
-            <p>
-              Presiona el botón y tu pedido
-              se abrirá en WhatsApp.
-            </p>
+                <span>
+                  Colegio Secundario La Peña
+                </span>
+              </div>
 
-          </article>
+            </div>
 
 
-          <article class="step-card">
+            <div class="about-info-item">
 
-            <span class="step-number">04</span>
+              <span class="about-info-icon">
+                🕐
+              </span>
 
-            <div class="step-icon">✅</div>
+              <div>
+                <strong>
+                  Horario
+                </strong>
 
-            <h3>RETIRA</h3>
+                <span>
+                  8:00 A.M. - 3:00 P.M.
+                </span>
+              </div>
 
-            <p>
-              Guarda tu número de pedido
-              y preséntalo al retirar.
-            </p>
+            </div>
 
-          </article>
+          </div>
 
         </div>
 
@@ -383,258 +471,183 @@
     <!-- =========================
          OPINIONES
     ========================== -->
-    <section class="opinions section" id="opiniones">
+    <section
+      class="opinions section"
+      id="opiniones"
+    >
 
-      <div class="container">
+      <div class="opinion-intro">
 
-        <div class="opinion-intro">
+        <div>
 
-          <div>
+          <p class="eyebrow">
+            TU OPINIÓN CUENTA
+          </p>
 
-            <p class="eyebrow">
-              TU OPINIÓN CUENTA
-            </p>
+          <h2>
+            ¿QUÉ TE PARECIÓ<br>
+            <span>FULL BITE?</span>
+          </h2>
 
-            <h2>
-              ¿QUÉ TE PARECIÓ
-              <span>FULL BITE?</span>
-            </h2>
-
-            <p class="opinion-description">
-              Queremos saber qué piensas. Tu opinión
-              nos ayuda a mejorar y a seguir haciendo
-              de FULL BITE un lugar para disfrutar.
-            </p>
-
-          </div>
-
-
-          <div class="opinion-highlight">
-
-            <span class="opinion-quote">“</span>
-
-            <strong>
-              HAZLE CASO<br>
-              AL ANTOJO.
-            </strong>
-
-            <span class="opinion-mini-stars">
-              ★★★★★
-            </span>
-
-          </div>
+          <p class="opinion-description">
+            Queremos saber qué piensas. Tu opinión nos ayuda
+            a mejorar y a seguir haciendo de FULL BITE un lugar
+            para disfrutar.
+          </p>
 
         </div>
 
 
-        <div class="opinion-box">
+        <div class="opinion-highlight">
 
-          <div class="opinion-box-head">
+          <span class="opinion-quote">
+            “
+          </span>
 
-            <div>
-              <span class="opinion-number">01</span>
+          <strong>
+            HAZLE CASO<br>
+            AL ANTOJO.
+          </strong>
 
-              <h3>
-                DEJA TU OPINIÓN
-              </h3>
-            </div>
+          <span class="opinion-mini-stars">
+            ★★★★★
+          </span>
 
-            <span class="opinion-icon">
-              ✦
+        </div>
+
+      </div>
+
+
+      <div class="opinion-box">
+
+        <div class="opinion-box-head">
+
+          <div>
+
+            <span class="opinion-number">
+              01
             </span>
+
+            <h3>
+              DEJA TU OPINIÓN
+            </h3>
 
           </div>
 
+          <span class="opinion-icon">
+            ✦
+          </span>
 
-          <form
-            id="opinionForm"
-            class="opinion-form"
-          >
-
-            <div class="opinion-fields">
-
-              <div class="form-group">
-
-                <label for="opinionName">
-                  TU NOMBRE
-                </label>
-
-                <input
-                  type="text"
-                  id="opinionName"
-                  maxlength="40"
-                  placeholder="¿Cómo te llamas?"
-                  required
-                >
-
-              </div>
+        </div>
 
 
-              <div class="form-group">
+        <form
+          id="opinionForm"
+          class="opinion-form"
+        >
 
-                <label for="opinionRating">
-                  CALIFICACIÓN
-                </label>
+          <div class="opinion-fields">
 
-                <select
-                  id="opinionRating"
-                  required
-                >
-                  <option value="">
-                    Selecciona una
-                  </option>
+            <div class="form-group">
 
-                  <option value="5">
-                    ★★★★★ — Excelente
-                  </option>
+              <label for="opinionName">
+                TU NOMBRE
+              </label>
 
-                  <option value="4">
-                    ★★★★☆ — Muy bueno
-                  </option>
-
-                  <option value="3">
-                    ★★★☆☆ — Bueno
-                  </option>
-
-                  <option value="2">
-                    ★★☆☆☆ — Regular
-                  </option>
-
-                  <option value="1">
-                    ★☆☆☆☆ — Puede mejorar
-                  </option>
-
-                </select>
-
-              </div>
+              <input
+                type="text"
+                id="opinionName"
+                maxlength="40"
+                placeholder="¿Cómo te llamas?"
+                required
+              >
 
             </div>
 
 
             <div class="form-group">
 
-              <label for="opinionText">
-                TU COMENTARIO
+              <label for="opinionRating">
+                CALIFICACIÓN
               </label>
 
-              <textarea
-                id="opinionText"
-                rows="4"
-                maxlength="250"
-                placeholder="Cuéntanos tu experiencia..."
+              <select
+                id="opinionRating"
                 required
-              ></textarea>
-
-            </div>
-
-
-            <div class="opinion-form-bottom">
-
-              <p
-                class="opinion-message"
-                id="opinionMessage"
-              ></p>
-
-              <button
-                class="btn btn-primary opinion-submit"
-                type="submit"
               >
-                ENVIAR OPINIÓN
-                <span>→</span>
-              </button>
 
-            </div>
+                <option value="">
+                  Selecciona una
+                </option>
 
-          </form>
+                <option value="5">
+                  ★★★★★ — Excelente
+                </option>
 
+                <option value="4">
+                  ★★★★☆ — Muy bueno
+                </option>
 
-          <div
-            class="saved-opinion"
-            id="savedOpinion"
-          ></div>
+                <option value="3">
+                  ★★★☆☆ — Bueno
+                </option>
 
-        </div>
+                <option value="2">
+                  ★★☆☆☆ — Regular
+                </option>
 
-      </div>
+                <option value="1">
+                  ★☆☆☆☆ — Puede mejorar
+                </option>
 
-    </section>
-
-
-    <!-- =========================
-         NOSOTROS
-    ========================== -->
-    <section class="about section" id="nosotros">
-
-      <div class="container">
-
-        <div class="about-grid">
-
-          <div class="about-content">
-
-            <p class="eyebrow">
-              CONOCE FULL BITE
-            </p>
-
-            <h2>
-              MÁS QUE UN
-              <span>ANTOJO.</span>
-            </h2>
-
-            <p>
-              FULL BITE es un emprendimiento creado
-              por estudiantes de 12° A de Comercio
-              del Colegio Secundario La Peña.
-            </p>
-
-            <p>
-              Nuestro objetivo es ofrecer comida
-              rápida, rica y accesible, pensada
-              especialmente para estudiantes.
-            </p>
-
-            <div class="about-details">
-
-              <div>
-                <span>COLEGIO</span>
-                <strong>
-                  COLEGIO SECUNDARIO LA PEÑA
-                </strong>
-              </div>
-
-              <div>
-                <span>GRUPO</span>
-                <strong>
-                  12° A DE COMERCIO
-                </strong>
-              </div>
+              </select>
 
             </div>
 
           </div>
 
 
-          <div class="about-card">
+          <div class="form-group">
 
-            <div class="about-card-top">
-              <span>FULL</span>
-              <strong>BITE</strong>
-            </div>
+            <label for="opinionText">
+              TU COMENTARIO
+            </label>
 
-            <p>
-              HAZLE CASO<br>
-              AL ANTOJO.
-            </p>
-
-            <div class="about-card-bottom">
-              <span>HORARIO</span>
-              <strong>
-                8:00 A.M. — 3:00 P.M.
-              </strong>
-            </div>
+            <textarea
+              id="opinionText"
+              rows="4"
+              maxlength="250"
+              placeholder="Cuéntanos tu experiencia..."
+              required
+            ></textarea>
 
           </div>
 
-        </div>
+
+          <div class="opinion-form-bottom">
+
+            <p
+              class="opinion-message"
+              id="opinionMessage"
+            ></p>
+
+            <button
+              class="btn btn-primary opinion-submit"
+              type="submit"
+            >
+              ENVIAR OPINIÓN
+              <span>→</span>
+            </button>
+
+          </div>
+
+        </form>
+
+
+        <div
+          class="saved-opinion"
+          id="savedOpinion"
+        ></div>
 
       </div>
 
@@ -648,36 +661,19 @@
   ========================== -->
   <footer class="footer">
 
-    <div class="container footer-inner">
+    <div class="footer-inner">
 
       <div class="footer-brand">
 
-        <div class="brand-logo">
+        <a href="#inicio" class="brand">
           <img
             src="logooooo.png"
-            alt="Logo FULL BITE"
+            alt="FULL BITE"
           >
-        </div>
-
-        <div>
-          <strong>FULL BITE</strong>
-
-          <span>
-            HAZLE CASO AL ANTOJO
-          </span>
-        </div>
-
-      </div>
-
-
-      <div class="footer-info">
+        </a>
 
         <p>
-          Emprendimiento de 12° A de Comercio
-        </p>
-
-        <p>
-          Colegio Secundario La Peña
+          HAZLE CASO AL ANTOJO.
         </p>
 
       </div>
@@ -685,23 +681,31 @@
 
       <div class="footer-links">
 
-        <a href="#inicio">Inicio</a>
-        <a href="#menu">Menú</a>
-        <a href="#opiniones">Opiniones</a>
+        <a href="#menu">
+          Menú
+        </a>
+
+        <a href="#como-pedir">
+          Cómo pedir
+        </a>
+
+        <a href="#opiniones">
+          Opiniones
+        </a>
 
       </div>
 
     </div>
 
 
-    <div class="container footer-bottom">
+    <div class="footer-bottom">
 
       <span>
-        © 2026 FULL BITE
+        © 2026 FULL BITE. Emprendimiento escolar.
       </span>
 
       <span>
-        Hazle caso al antojo.
+        12° A de Comercio
       </span>
 
     </div>
@@ -721,21 +725,25 @@
   <aside
     class="cart"
     id="cart"
-    aria-label="Carrito de compras"
+    aria-label="Carrito de compra"
   >
 
     <div class="cart-header">
 
       <div>
-        <p class="eyebrow">TU PEDIDO</p>
+
+        <p class="eyebrow">
+          TU PEDIDO
+        </p>
 
         <h2>
-          MI <span>CARRITO</span>
+          CARRITO
         </h2>
+
       </div>
 
       <button
-        class="close-cart"
+        class="cart-close"
         id="closeCart"
         type="button"
         aria-label="Cerrar carrito"
@@ -758,31 +766,31 @@
     >
 
       <div class="cart-empty-icon">
-        🛒
+        🌭
       </div>
 
       <h3>
-        TU CARRITO ESTÁ VACÍO
+        Tu carrito está vacío
       </h3>
 
       <p>
-        Agrega algo rico y hazle caso al antojo.
+        Agrega algo delicioso para comenzar.
       </p>
 
-      <a
-        href="#menu"
+      <button
         class="btn btn-primary"
-        id="emptyCartMenu"
+        id="cartGoMenu"
+        type="button"
       >
         VER MENÚ
-      </a>
+      </button>
 
     </div>
 
 
     <div class="cart-footer">
 
-      <div class="cart-total-row">
+      <div class="cart-total">
 
         <span>
           TOTAL
@@ -794,17 +802,25 @@
 
       </div>
 
+
+      <p class="cart-note">
+        Al enviar tu pedido recibirás un número
+        de pedido para retirarlo.
+      </p>
+
+
       <button
         class="btn btn-primary cart-send"
         id="sendWhatsApp"
         type="button"
       >
-        PEDIR POR WHATSAPP
-        <span>→</span>
+        📲 ENVIAR PEDIDO POR WHATSAPP
       </button>
 
-      <p class="cart-note">
-        El pedido se enviará directamente por WhatsApp.
+
+      <p class="cart-order-note">
+        Tu número de pedido aparecerá después
+        de enviarlo por WhatsApp.
       </p>
 
     </div>
