@@ -1,18 +1,6 @@
-/* =====================================================
-   FULL BITE
-   HAZLE CASO AL ANTOJO
-===================================================== */
-
-
-/* ==================== WHATSAPP ==================== */
-
 const WHATSAPP_NUMBER = "50769275725";
 
-
-/* ==================== PRODUCTOS ==================== */
-
 const products = [
-
   {
     id: "classic",
     name: "Hotdog Clásico",
@@ -23,7 +11,6 @@ const products = [
     featured: true,
     badge: "CLÁSICO"
   },
-
   {
     id: "combo-1",
     name: "Combo #1",
@@ -34,7 +21,6 @@ const products = [
     featured: true,
     badge: "COMBO"
   },
-
   {
     id: "combo-2",
     name: "Combo #2",
@@ -45,7 +31,6 @@ const products = [
     featured: true,
     badge: "COMBO"
   },
-
   {
     id: "fries",
     name: "Papas Fritas",
@@ -56,7 +41,6 @@ const products = [
     featured: true,
     badge: "PAPAS"
   },
-
   {
     id: "soda",
     name: "Soda",
@@ -67,7 +51,6 @@ const products = [
     featured: true,
     badge: "BEBIDA"
   },
-
   {
     id: "cup-soda",
     name: "Vaso de soda",
@@ -78,33 +61,34 @@ const products = [
     featured: false,
     badge: "BEBIDA"
   }
-
 ];
-
-
-/* ==================== CARRITO ==================== */
 
 let cart = JSON.parse(
   localStorage.getItem("fullBiteCart") || "[]"
 );
 
-
 let selectedCategory = "todos";
 
-
-/* ==================== FUNCIONES GENERALES ==================== */
-
-const $ = id =>
-  document.getElementById(id);
-
+const $ = id => document.getElementById(id);
 
 const money = n =>
   `$${Number(n).toFixed(2)}`;
 
 
-/* ==================== GUARDAR CARRITO ==================== */
+/* =====================================================
+   LIMPIAR PRODUCTOS ANTIGUOS
+===================================================== */
 
-function saveCart(){
+cart = cart.filter(item =>
+  products.some(product => product.id === item.id)
+);
+
+
+/* =====================================================
+   GUARDAR CARRITO
+===================================================== */
+
+function saveCart() {
 
   localStorage.setItem(
     "fullBiteCart",
@@ -114,33 +98,29 @@ function saveCart(){
 }
 
 
-/* ==================== AGREGAR AL CARRITO ==================== */
+/* =====================================================
+   AGREGAR AL CARRITO
+===================================================== */
 
-function addToCart(
-  productId,
-  qty = 1
-){
+function addToCart(productId, qty = 1) {
 
-  const product =
-    products.find(
-      x => x.id === productId
-    );
+  const product = products.find(
+    x => x.id === productId
+  );
 
-
-  if(!product) return;
+  if (!product) return;
 
 
-  const existing =
-    cart.find(
-      x => x.id === productId
-    );
+  const existing = cart.find(
+    x => x.id === productId
+  );
 
 
-  if(existing){
+  if (existing) {
 
     existing.qty += qty;
 
-  }else{
+  } else {
 
     cart.push({
       id: product.id,
@@ -159,28 +139,27 @@ function addToCart(
 }
 
 
-/* ==================== RESTAR PRODUCTO ==================== */
+/* =====================================================
+   RESTAR PRODUCTO
+===================================================== */
 
-function removeOne(id){
+function removeOne(id) {
 
-  const item =
-    cart.find(
-      x => x.id === id
-    );
+  const item = cart.find(
+    x => x.id === id
+  );
 
-
-  if(!item) return;
+  if (!item) return;
 
 
   item.qty--;
 
 
-  if(item.qty <= 0){
+  if (item.qty <= 0) {
 
-    cart =
-      cart.filter(
-        x => x.id !== id
-      );
+    cart = cart.filter(
+      x => x.id !== id
+    );
 
   }
 
@@ -192,33 +171,53 @@ function removeOne(id){
 }
 
 
-/* ==================== SUMAR PRODUCTO ==================== */
+/* =====================================================
+   SUMAR PRODUCTO
+===================================================== */
 
-function addOne(id){
+function addOne(id) {
 
   addToCart(id);
 
 }
 
 
-/* ==================== TOTAL ==================== */
+/* =====================================================
+   ELIMINAR PRODUCTO COMPLETAMENTE
+===================================================== */
 
-function cartTotal(){
+function removeFromCart(id) {
+
+  cart = cart.filter(
+    item => item.id !== id
+  );
+
+  saveCart();
+
+  renderCart();
+
+}
+
+
+/* =====================================================
+   TOTAL DEL CARRITO
+===================================================== */
+
+function cartTotal() {
 
   return cart.reduce(
     (sum, item) => {
 
-      const product =
-        products.find(
-          x => x.id === item.id
-        );
+      const product = products.find(
+        x => x.id === item.id
+      );
 
 
       return sum +
         (
           product
-          ? product.price * item.qty
-          : 0
+            ? product.price * item.qty
+            : 0
         );
 
     },
@@ -228,9 +227,11 @@ function cartTotal(){
 }
 
 
-/* ==================== CANTIDAD DEL CARRITO ==================== */
+/* =====================================================
+   CANTIDAD DEL CARRITO
+===================================================== */
 
-function cartCount(){
+function cartCount() {
 
   return cart.reduce(
     (sum, item) =>
@@ -241,43 +242,11 @@ function cartCount(){
 }
 
 
-/* ==================== NÚMERO DE PEDIDO ==================== */
+/* =====================================================
+   TARJETA DE PRODUCTO
+===================================================== */
 
-function generateOrderNumber(){
-
-  let lastOrder =
-    Number(
-      localStorage.getItem(
-        "fullBiteOrderNumber"
-      ) || 0
-    );
-
-
-  if(lastOrder >= 99){
-
-    lastOrder = 1;
-
-  }else{
-
-    lastOrder++;
-
-  }
-
-
-  localStorage.setItem(
-    "fullBiteOrderNumber",
-    String(lastOrder)
-  );
-
-
-  return `FB-${String(lastOrder).padStart(2, "0")}`;
-
-}
-
-
-/* ==================== TARJETAS DE PRODUCTOS ==================== */
-
-function productCard(p){
+function productCard(p) {
 
   return `
 
@@ -285,10 +254,9 @@ function productCard(p){
 
       ${
         p.badge
-        ? `<span class="badge">${p.badge}</span>`
-        : ""
+          ? `<span class="badge">${p.badge}</span>`
+          : ""
       }
-
 
       <div class="product-visual">
 
@@ -334,15 +302,15 @@ function productCard(p){
 }
 
 
-/* ==================== MOSTRAR PRODUCTOS ==================== */
+/* =====================================================
+   MOSTRAR PRODUCTOS
+===================================================== */
 
-function renderProducts(){
+function renderProducts() {
 
   const featured =
     products
-      .filter(
-        p => p.featured
-      )
+      .filter(p => p.featured)
       .slice(0, 3);
 
 
@@ -354,11 +322,11 @@ function renderProducts(){
 
   const list =
     selectedCategory === "todos"
-    ? products
-    : products.filter(
-        p =>
-          p.category === selectedCategory
-      );
+      ? products
+      : products.filter(
+          p =>
+            p.category === selectedCategory
+        );
 
 
   $("menuProducts").innerHTML =
@@ -369,9 +337,11 @@ function renderProducts(){
 }
 
 
-/* ==================== MOSTRAR CARRITO ==================== */
+/* =====================================================
+   MOSTRAR CARRITO
+===================================================== */
 
-function renderCart(){
+function renderCart() {
 
   $("cartCount").textContent =
     cartCount();
@@ -390,7 +360,7 @@ function renderCart(){
         );
 
 
-      if(!product) return "";
+      if (!product) return "";
 
 
       return `
@@ -421,7 +391,6 @@ function renderCart(){
 
             <div class="qty">
 
-
               <button
                 onclick="removeOne('${product.id}')"
               >
@@ -440,7 +409,6 @@ function renderCart(){
                 +
               </button>
 
-
             </div>
 
           </div>
@@ -448,15 +416,7 @@ function renderCart(){
 
           <button
             aria-label="Eliminar"
-            onclick="
-              cart = cart.filter(
-                x => x.id !== '${product.id}'
-              );
-
-              saveCart();
-
-              renderCart();
-            "
+            onclick="removeFromCart('${product.id}')"
           >
             ✕
           </button>
@@ -475,14 +435,14 @@ function renderCart(){
 
   $("cartEmpty").style.display =
     empty
-    ? "block"
-    : "none";
+      ? "block"
+      : "none";
 
 
   $("cartItems").style.display =
     empty
-    ? "none"
-    : "block";
+      ? "none"
+      : "block";
 
 
   $("sendWhatsApp").disabled =
@@ -491,15 +451,52 @@ function renderCart(){
 
   $("sendWhatsApp").style.opacity =
     empty
-    ? ".5"
-    : "1";
+      ? ".5"
+      : "1";
 
 }
 
 
-/* ==================== ABRIR CARRITO ==================== */
+/* =====================================================
+   NÚMERO DE PEDIDO
+===================================================== */
 
-function openCart(){
+function generateOrderNumber() {
+
+  let lastOrder = Number(
+    localStorage.getItem(
+      "fullBiteOrderNumber"
+    ) || 0
+  );
+
+
+  if (lastOrder >= 99) {
+
+    lastOrder = 1;
+
+  } else {
+
+    lastOrder++;
+
+  }
+
+
+  localStorage.setItem(
+    "fullBiteOrderNumber",
+    String(lastOrder)
+  );
+
+
+  return `FB-${String(lastOrder).padStart(2, "0")}`;
+
+}
+
+
+/* =====================================================
+   ABRIR CARRITO
+===================================================== */
+
+function openCart() {
 
   $("cart")
     .classList
@@ -513,9 +510,11 @@ function openCart(){
 }
 
 
-/* ==================== CERRAR CARRITO ==================== */
+/* =====================================================
+   CERRAR CARRITO
+===================================================== */
 
-function closeCart(){
+function closeCart() {
 
   $("cart")
     .classList
@@ -529,11 +528,13 @@ function closeCart(){
 }
 
 
-/* ==================== WHATSAPP ==================== */
+/* =====================================================
+   ENVIAR PEDIDO POR WHATSAPP
+===================================================== */
 
-function sendWhatsApp(){
+function sendWhatsApp() {
 
-  if(!cart.length)
+  if (!cart.length)
     return;
 
 
@@ -558,9 +559,10 @@ function sendWhatsApp(){
 
 
   const message =
+
     `Hola, quiero realizar un pedido en FULL BITE.%0A%0A` +
 
-    `*Número de pedido:* ${orderNumber}%0A%0A` +
+    `*Número de pedido: ${orderNumber}*%0A%0A` +
 
     `*Pedido:*%0A` +
 
@@ -579,7 +581,9 @@ function sendWhatsApp(){
 }
 
 
-/* ==================== FILTROS ==================== */
+/* =====================================================
+   FILTROS DEL MENÚ
+===================================================== */
 
 document
   .querySelectorAll(".filter")
@@ -592,10 +596,8 @@ document
 
         document
           .querySelectorAll(".filter")
-          .forEach(
-            x =>
-              x.classList
-                .remove("active")
+          .forEach(x =>
+            x.classList.remove("active")
           );
 
 
@@ -614,7 +616,9 @@ document
   });
 
 
-/* ==================== CARRITO ==================== */
+/* =====================================================
+   BOTONES DEL CARRITO
+===================================================== */
 
 $("openCart")
   .addEventListener(
@@ -661,7 +665,9 @@ $("sendWhatsApp")
   );
 
 
-/* ==================== BOTÓN PEDIR AHORA ==================== */
+/* =====================================================
+   BOTÓN PEDIR AHORA
+===================================================== */
 
 $("heroOrder")
   .addEventListener(
@@ -677,7 +683,9 @@ $("heroOrder")
   );
 
 
-/* ==================== MENÚ MÓVIL ==================== */
+/* =====================================================
+   MENÚ MÓVIL
+===================================================== */
 
 $("menuToggle")
   .addEventListener(
@@ -710,8 +718,122 @@ document
   });
 
 
-/* ==================== INICIAR ==================== */
+/* =====================================================
+   OPINIONES
+===================================================== */
+
+function renderSavedOpinion() {
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "fullBiteOpinion"
+      ) || "null"
+    );
+
+
+  if (!saved)
+    return;
+
+
+  $("savedOpinion").innerHTML = `
+
+    <strong>
+      ${saved.name}
+    </strong>
+
+    <div class="saved-stars">
+
+      ${
+        "★".repeat(saved.rating)
+      }${
+        "☆".repeat(5 - saved.rating)
+      }
+
+    </div>
+
+    <p>
+      ${saved.text}
+    </p>
+
+  `;
+
+
+  $("savedOpinion")
+    .classList
+    .add("show");
+
+}
+
+
+$("opinionForm")
+  .addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+
+      const name =
+        $("opinionName")
+          .value
+          .trim();
+
+
+      const rating =
+        Number(
+          $("opinionRating").value
+        );
+
+
+      const text =
+        $("opinionText")
+          .value
+          .trim();
+
+
+      if (
+        !name ||
+        !rating ||
+        !text
+      ) {
+
+        return;
+
+      }
+
+
+      localStorage.setItem(
+        "fullBiteOpinion",
+
+        JSON.stringify({
+          name,
+          rating,
+          text
+        })
+      );
+
+
+      $("opinionMessage")
+        .textContent =
+          "¡Gracias por compartir tu opinión!";
+
+
+      event.target.reset();
+
+
+      renderSavedOpinion();
+
+    }
+  );
+
+
+/* =====================================================
+   INICIAR PÁGINA
+===================================================== */
 
 renderProducts();
 
 renderCart();
+
+renderSavedOpinion();
