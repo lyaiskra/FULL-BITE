@@ -1,6 +1,21 @@
+/* =====================================================
+   FULL BITE — SCRIPT
+   ===================================================== */
+
+
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
+
 const WHATSAPP_NUMBER = "50769275725";
 
+
+/* =====================================================
+   PRODUCTOS
+===================================================== */
+
 const products = [
+
   {
     id: "classic",
     name: "Hotdog Clásico",
@@ -45,11 +60,12 @@ const products = [
     description: "Una bebida fría para acompañar.",
     emoji: "🥤"
   }
+
 ];
 
 
 /* =====================================================
-   ESTADO DEL CARRITO
+   ESTADO
 ===================================================== */
 
 let cart = [];
@@ -61,28 +77,59 @@ let selectedCategory = "todos";
    ELEMENTOS
 ===================================================== */
 
-const featuredProducts = document.getElementById("featuredProducts");
-const menuProducts = document.getElementById("menuProducts");
-const filters = document.getElementById("filters");
+const featuredProducts =
+  document.getElementById("featuredProducts");
 
-const cartCount = document.getElementById("cartCount");
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
-const cartEmpty = document.getElementById("cartEmpty");
+const menuProducts =
+  document.getElementById("menuProducts");
 
-const cartElement = document.getElementById("cart");
-const cartOverlay = document.getElementById("cartOverlay");
+const filters =
+  document.getElementById("filters");
 
-const openCartButton = document.getElementById("openCart");
-const closeCartButton = document.getElementById("closeCart");
+const cartCount =
+  document.getElementById("cartCount");
 
-const sendWhatsAppButton = document.getElementById("sendWhatsApp");
+const cartItems =
+  document.getElementById("cartItems");
 
-const goMenuButton = document.getElementById("goMenu");
-const heroOrderButton = document.getElementById("heroOrder");
+const cartTotal =
+  document.getElementById("cartTotal");
 
-const menuToggle = document.getElementById("menuToggle");
-const nav = document.getElementById("nav");
+const cartEmpty =
+  document.getElementById("cartEmpty");
+
+const cartElement =
+  document.getElementById("cart");
+
+const cartOverlay =
+  document.getElementById("cartOverlay");
+
+const openCartButton =
+  document.getElementById("openCart");
+
+const closeCartButton =
+  document.getElementById("closeCart");
+
+const sendWhatsAppButton =
+  document.getElementById("sendWhatsApp");
+
+const goMenuButton =
+  document.getElementById("goMenu");
+
+const heroOrderButton =
+  document.getElementById("heroOrder");
+
+const menuToggle =
+  document.getElementById("menuToggle");
+
+const nav =
+  document.getElementById("nav");
+
+const opinionForm =
+  document.getElementById("opinionForm");
+
+const opinionMessage =
+  document.getElementById("opinionMessage");
 
 
 /* =====================================================
@@ -90,30 +137,62 @@ const nav = document.getElementById("nav");
 ===================================================== */
 
 function formatPrice(price) {
+
   return `$${price.toFixed(2)}`;
+
 }
 
 
 /* =====================================================
-   PRODUCTOS
+   CATEGORÍAS
+===================================================== */
+
+function getCategoryName(category) {
+
+  const categories = {
+
+    hotdogs: "HOT DOGS",
+
+    combos: "COMBOS",
+
+    papas: "PAPAS",
+
+    bebidas: "BEBIDAS"
+
+  };
+
+  return categories[category] || "";
+
+}
+
+
+/* =====================================================
+   MOSTRAR PRODUCTOS
 ===================================================== */
 
 function renderProducts(container, items) {
 
   if (!container) return;
 
+
   container.innerHTML = "";
+
 
   items.forEach(product => {
 
-    const article = document.createElement("article");
+    const article =
+      document.createElement("article");
+
 
     article.className = "product-card";
 
+
     article.innerHTML = `
+
       <div class="product-image">
         ${product.emoji}
       </div>
+
 
       <div class="product-info">
 
@@ -121,19 +200,23 @@ function renderProducts(container, items) {
           ${getCategoryName(product.category)}
         </div>
 
+
         <h3>
           ${product.name}
         </h3>
 
+
         <p>
           ${product.description}
         </p>
+
 
         <div class="product-bottom">
 
           <span class="product-price">
             ${formatPrice(product.price)}
           </span>
+
 
           <button
             class="add-button"
@@ -145,45 +228,43 @@ function renderProducts(container, items) {
         </div>
 
       </div>
+
     `;
 
+
     container.appendChild(article);
+
   });
-}
 
-
-function getCategoryName(category) {
-
-  const categories = {
-    hotdogs: "HOT DOGS",
-    combos: "COMBOS",
-    papas: "PAPAS",
-    bebidas: "BEBIDAS"
-  };
-
-  return categories[category] || "";
 }
 
 
 /* =====================================================
-   PRODUCTOS DESTACADOS
+   FAVORITOS
 ===================================================== */
 
 function renderFeaturedProducts() {
 
-  const featured = products.slice(0, 3);
+  const featured =
+    products.slice(0, 3);
 
-  renderProducts(featuredProducts, featured);
+
+  renderProducts(
+    featuredProducts,
+    featured
+  );
+
 }
 
 
 /* =====================================================
-   FILTROS DEL MENÚ
+   MENÚ
 ===================================================== */
 
 function renderMenuProducts() {
 
   let filteredProducts;
+
 
   if (selectedCategory === "todos") {
 
@@ -191,13 +272,20 @@ function renderMenuProducts() {
 
   } else {
 
-    filteredProducts = products.filter(
-      product => product.category === selectedCategory
-    );
+    filteredProducts =
+      products.filter(
+        product =>
+          product.category === selectedCategory
+      );
 
   }
 
-  renderProducts(menuProducts, filteredProducts);
+
+  renderProducts(
+    menuProducts,
+    filteredProducts
+  );
+
 }
 
 
@@ -207,15 +295,20 @@ function renderMenuProducts() {
 
 function addToCart(productId) {
 
-  const product = products.find(
-    product => product.id === productId
-  );
+  const product =
+    products.find(
+      product => product.id === productId
+    );
+
 
   if (!product) return;
 
-  const existingItem = cart.find(
-    item => item.id === productId
-  );
+
+  const existingItem =
+    cart.find(
+      item => item.id === productId
+    );
+
 
   if (existingItem) {
 
@@ -224,13 +317,18 @@ function addToCart(productId) {
   } else {
 
     cart.push({
+
       ...product,
+
       quantity: 1
+
     });
 
   }
 
+
   renderCart();
+
 }
 
 
@@ -240,37 +338,47 @@ function addToCart(productId) {
 
 function changeQuantity(productId, change) {
 
-  const item = cart.find(
-    item => item.id === productId
-  );
+  const item =
+    cart.find(
+      item => item.id === productId
+    );
+
 
   if (!item) return;
 
+
   item.quantity += change;
+
 
   if (item.quantity <= 0) {
 
-    cart = cart.filter(
-      item => item.id !== productId
-    );
+    cart =
+      cart.filter(
+        item => item.id !== productId
+      );
 
   }
 
+
   renderCart();
+
 }
 
 
 /* =====================================================
-   ELIMINAR PRODUCTO
+   ELIMINAR DEL CARRITO
 ===================================================== */
 
 function removeFromCart(productId) {
 
-  cart = cart.filter(
-    item => item.id !== productId
-  );
+  cart =
+    cart.filter(
+      item => item.id !== productId
+    );
+
 
   renderCart();
+
 }
 
 
@@ -282,15 +390,19 @@ function renderCart() {
 
   if (!cartItems) return;
 
+
   cartItems.innerHTML = "";
 
+
   let totalItems = 0;
+
   let totalPrice = 0;
 
 
   if (cart.length === 0) {
 
     cartItems.style.display = "none";
+
 
     if (cartEmpty) {
       cartEmpty.style.display = "block";
@@ -299,6 +411,7 @@ function renderCart() {
   } else {
 
     cartItems.style.display = "block";
+
 
     if (cartEmpty) {
       cartEmpty.style.display = "none";
@@ -309,12 +422,18 @@ function renderCart() {
 
       totalItems += item.quantity;
 
-      totalPrice += item.price * item.quantity;
+
+      totalPrice +=
+        item.price * item.quantity;
 
 
-      const cartItem = document.createElement("div");
+      const cartItem =
+        document.createElement("div");
 
-      cartItem.className = "cart-item";
+
+      cartItem.className =
+        "cart-item";
+
 
       cartItem.innerHTML = `
 
@@ -342,9 +461,11 @@ function renderCart() {
             −
           </button>
 
+
           <span class="quantity-number">
             ${item.quantity}
           </span>
+
 
           <button
             class="quantity-button"
@@ -368,6 +489,7 @@ function renderCart() {
 
       `;
 
+
       cartItems.appendChild(cartItem);
 
     });
@@ -376,15 +498,26 @@ function renderCart() {
 
 
   if (cartCount) {
-    cartCount.textContent = totalItems;
+
+    cartCount.textContent =
+      totalItems;
+
   }
+
 
   if (cartTotal) {
-    cartTotal.textContent = formatPrice(totalPrice);
+
+    cartTotal.textContent =
+      formatPrice(totalPrice);
+
   }
 
+
   if (sendWhatsAppButton) {
-    sendWhatsAppButton.disabled = cart.length === 0;
+
+    sendWhatsAppButton.disabled =
+      cart.length === 0;
+
   }
 
 }
@@ -397,9 +530,12 @@ function renderCart() {
 
 function generateOrderNumber() {
 
-  let lastOrder = Number(
-    localStorage.getItem("fullBiteOrderNumber") || 0
-  );
+  let lastOrder =
+    Number(
+      localStorage.getItem(
+        "fullBiteOrderNumber"
+      ) || 0
+    );
 
 
   if (lastOrder >= 99) {
@@ -420,6 +556,7 @@ function generateOrderNumber() {
 
 
   return `FB-${String(lastOrder).padStart(2, "0")}`;
+
 }
 
 
@@ -429,45 +566,46 @@ function generateOrderNumber() {
 
 function sendWhatsApp() {
 
-  if (cart.length === 0) {
-    return;
-  }
+  if (cart.length === 0) return;
 
 
-  const orderNumber = generateOrderNumber();
+  const orderNumber =
+    generateOrderNumber();
 
 
   let total = 0;
 
 
   let message =
-    `*FULL BITE* 🍴%0A` +
-    `*Hazle caso al antojo*%0A%0A`;
+    `*FULL BITE* 🍴\n` +
+    `*Hazle caso al antojo.*\n\n`;
 
 
   message +=
-    `*Número de pedido: ${orderNumber}*%0A%0A`;
+    `*Número de pedido: ${orderNumber}*\n\n`;
 
 
   message +=
-    `*Mi pedido:*%0A`;
+    `*MI PEDIDO:*\n`;
 
 
   cart.forEach(item => {
 
-    const subtotal = item.price * item.quantity;
+    const subtotal =
+      item.price * item.quantity;
+
 
     total += subtotal;
 
 
     message +=
-      `• ${item.quantity}x ${item.name} — ${formatPrice(subtotal)}%0A`;
+      `• ${item.quantity}x ${item.name} — ${formatPrice(subtotal)}\n`;
 
   });
 
 
   message +=
-    `%0A*TOTAL: ${formatPrice(total)}*%0A%0A`;
+    `\n*TOTAL: ${formatPrice(total)}*\n\n`;
 
 
   message +=
@@ -475,7 +613,7 @@ function sendWhatsApp() {
 
 
   const whatsappURL =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 
   window.open(
@@ -492,10 +630,17 @@ function sendWhatsApp() {
 
 function openCart() {
 
+  if (!cartElement || !cartOverlay) return;
+
+
   cartElement.classList.add("active");
+
   cartOverlay.classList.add("active");
 
-  document.body.style.overflow = "hidden";
+
+  document.body.style.overflow =
+    "hidden";
+
 }
 
 
@@ -505,75 +650,103 @@ function openCart() {
 
 function closeCart() {
 
+  if (!cartElement || !cartOverlay) return;
+
+
   cartElement.classList.remove("active");
+
   cartOverlay.classList.remove("active");
 
-  document.body.style.overflow = "";
+
+  document.body.style.overflow =
+    "";
+
 }
 
 
 /* =====================================================
-   EVENTOS DE PRODUCTOS
+   EVENTOS DE PRODUCTOS Y CARRITO
 ===================================================== */
 
-document.addEventListener("click", event => {
-
-  const addButton = event.target.closest(".add-button");
-
-  if (addButton) {
-
-    const productId = addButton.dataset.id;
-
-    addToCart(productId);
-
-    openCart();
-
-    return;
-  }
+document.addEventListener(
+  "click",
+  event => {
 
 
-  const quantityButton =
-    event.target.closest(".quantity-button");
+    const addButton =
+      event.target.closest(".add-button");
 
 
-  if (quantityButton) {
+    if (addButton) {
 
-    const productId =
-      quantityButton.dataset.id;
+      addToCart(
+        addButton.dataset.id
+      );
 
-    const action =
-      quantityButton.dataset.action;
+      openCart();
 
-
-    if (action === "increase") {
-
-      changeQuantity(productId, 1);
+      return;
 
     }
 
-    if (action === "decrease") {
 
-      changeQuantity(productId, -1);
+    const quantityButton =
+      event.target.closest(
+        ".quantity-button"
+      );
+
+
+    if (quantityButton) {
+
+      const productId =
+        quantityButton.dataset.id;
+
+
+      const action =
+        quantityButton.dataset.action;
+
+
+      if (action === "increase") {
+
+        changeQuantity(
+          productId,
+          1
+        );
+
+      }
+
+
+      if (action === "decrease") {
+
+        changeQuantity(
+          productId,
+          -1
+        );
+
+      }
+
+
+      return;
 
     }
 
-    return;
+
+    const removeButton =
+      event.target.closest(
+        ".remove-item"
+      );
+
+
+    if (removeButton) {
+
+      removeFromCart(
+        removeButton.dataset.id
+      );
+
+    }
+
   }
-
-
-  const removeButton =
-    event.target.closest(".remove-item");
-
-
-  if (removeButton) {
-
-    removeFromCart(
-      removeButton.dataset.id
-    );
-
-  }
-
-});
+);
 
 
 /* =====================================================
@@ -582,37 +755,45 @@ document.addEventListener("click", event => {
 
 if (filters) {
 
-  filters.addEventListener("click", event => {
+  filters.addEventListener(
+    "click",
+    event => {
 
-    const filter =
-      event.target.closest(".filter");
-
-    if (!filter) return;
-
-
-    document
-      .querySelectorAll(".filter")
-      .forEach(button => {
-        button.classList.remove("active");
-      });
+      const filter =
+        event.target.closest(".filter");
 
 
-    filter.classList.add("active");
+      if (!filter) return;
 
 
-    selectedCategory =
-      filter.dataset.category;
+      document
+        .querySelectorAll(".filter")
+        .forEach(button => {
+
+          button.classList.remove(
+            "active"
+          );
+
+        });
 
 
-    renderMenuProducts();
+      filter.classList.add("active");
 
-  });
+
+      selectedCategory =
+        filter.dataset.category;
+
+
+      renderMenuProducts();
+
+    }
+  );
 
 }
 
 
 /* =====================================================
-   CARRITO
+   BOTONES DEL CARRITO
 ===================================================== */
 
 if (openCartButton) {
@@ -660,28 +841,38 @@ if (heroOrderButton) {
 
 
 /* =====================================================
-   BOTÓN VER MENÚ DESDE CARRITO
+   IR AL MENÚ
 ===================================================== */
 
 if (goMenuButton) {
 
-  goMenuButton.addEventListener("click", () => {
+  goMenuButton.addEventListener(
+    "click",
+    () => {
 
-    closeCart();
+      closeCart();
 
-    document
-      .getElementById("menu")
-      ?.scrollIntoView({
-        behavior: "smooth"
-      });
 
-  });
+      const menu =
+        document.getElementById("menu");
+
+
+      if (menu) {
+
+        menu.scrollIntoView({
+          behavior: "smooth"
+        });
+
+      }
+
+    }
+  );
 
 }
 
 
 /* =====================================================
-   WHATSAPP
+   WHATSAPP DEL PEDIDO
 ===================================================== */
 
 if (sendWhatsAppButton) {
@@ -700,26 +891,113 @@ if (sendWhatsAppButton) {
 
 if (menuToggle) {
 
-  menuToggle.addEventListener("click", () => {
+  menuToggle.addEventListener(
+    "click",
+    () => {
 
-    nav.classList.toggle("active");
+      nav.classList.toggle(
+        "active"
+      );
 
-  });
+    }
+  );
 
 }
 
 
 if (nav) {
 
-  nav.querySelectorAll("a").forEach(link => {
+  nav
+    .querySelectorAll("a")
+    .forEach(link => {
 
-    link.addEventListener("click", () => {
+      link.addEventListener(
+        "click",
+        () => {
 
-      nav.classList.remove("active");
+          nav.classList.remove(
+            "active"
+          );
+
+        }
+      );
 
     });
 
-  });
+}
+
+
+/* =====================================================
+   OPINIONES
+===================================================== */
+
+if (opinionForm) {
+
+  opinionForm.addEventListener(
+    "submit",
+    event => {
+
+      event.preventDefault();
+
+
+      const name =
+        document
+          .getElementById("opinionName")
+          .value
+          .trim();
+
+
+      const rating =
+        document
+          .getElementById("opinionRating")
+          .value;
+
+
+      const opinion =
+        document
+          .getElementById("opinionText")
+          .value
+          .trim();
+
+
+      if (!name || !rating || !opinion) {
+
+        return;
+
+      }
+
+
+      const stars =
+        "★".repeat(Number(rating)) +
+        "☆".repeat(5 - Number(rating));
+
+
+      const message =
+        `*FULL BITE — NUEVA OPINIÓN* ⭐\n\n` +
+        `*Nombre:* ${name}\n` +
+        `*Calificación:* ${stars}\n\n` +
+        `*Opinión:*\n${opinion}`;
+
+
+      const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+
+      if (opinionMessage) {
+
+        opinionMessage.textContent =
+          "Abriendo WhatsApp...";
+
+      }
+
+
+      window.open(
+        whatsappURL,
+        "_blank"
+      );
+
+    }
+  );
 
 }
 
